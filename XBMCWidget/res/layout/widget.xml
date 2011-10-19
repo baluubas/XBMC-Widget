@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:id="@+id/TableLayout01" 
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent"
+	android:orientation="horizontal"
+	android:background="@drawable/widget_bg" >
+		
+	<RelativeLayout 
+		android:id="@+id/leftpane"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginRight="25dp" >
+
+	<ImageButton android:id="@+id/home" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:background="@drawable/home_button"
+		android:layout_marginLeft="25dp"  />
+		
+	<ImageButton android:id="@+id/context" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_toRightOf="@id/home"
+		android:background="@drawable/context_button"
+		android:layout_marginLeft="10dp"  />
+
+	<ImageButton android:id="@+id/togglefullscreen" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:background="@drawable/fullscreen_button"
+		android:layout_below="@id/home"
+		android:layout_marginLeft="25dp"  
+		android:layout_marginTop="10dp"   />
+
+	<ImageButton android:id="@+id/playpause"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_toRightOf="@id/togglefullscreen"
+		android:layout_below="@id/context"
+		android:background="@drawable/playpause_button"
+		android:layout_marginLeft="10dp" 
+		android:layout_marginTop="10dp" />
+	
+	<ImageButton android:id="@+id/toggleosd"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:text="OSD" 
+		android:layout_below="@id/togglefullscreen"
+		android:background="@drawable/osd_button"
+		android:layout_marginLeft="25dp"
+		android:layout_marginTop="10dp"    />
+			
+	<ImageButton android:id="@+id/back"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_below="@id/playpause"
+		android:layout_toRightOf="@id/toggleosd"  
+		android:background="@drawable/back_button"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"   />	
+ 
+	</RelativeLayout >
+
+	<RelativeLayout 
+		android:id="@+id/navigation" 
+		android:layout_width="match_parent" 
+		android:layout_height="match_parent"
+        android:layout_marginRight="25dp" 
+        android:layout_toRightOf="@id/leftpane">
+        
+        <RelativeLayout 		
+        	android:layout_width="wrap_content" 
+			android:layout_height="match_parent">
+	
+			<ImageButton android:id="@+id/select" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:layout_centerInParent="true"
+				android:background="@drawable/select_button"/> 
+					
+			<ImageButton android:id="@+id/up" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:background="@drawable/up_button"
+				android:layout_above="@id/select"/>
+				
+			<ImageButton android:id="@+id/left"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toLeftOf="@id/select"
+				android:layout_below="@id/up"
+				android:background="@drawable/left_button"  />
+			
+			<ImageButton android:id="@+id/right"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:layout_toRightOf="@id/select"
+				android:layout_below="@id/up"
+				android:background="@drawable/right_button" />	
+				
+			<ImageButton android:id="@+id/down"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:background="@drawable/down_button"
+				android:layout_below="@id/select" />
+		</RelativeLayout>
+ 	</RelativeLayout>
+</RelativeLayout>

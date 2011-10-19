@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XBMC Widget</string>
+    <string name="error_content_title">XBMC widget is on the fritz</string>
+    <string name="error_content_text">Click for troubleshooting</string>
+    <string name="error_ticker_text">Darn - the clicker\'s on the fritz</string>
+    <string name="lbl_host">Host</string>
+    <string name="lbl_port">Port</string>
+    <string name="lbl_username">Username</string>
+    <string name="lbl_password">Password</string>
+    <string name="lbl_use_auth">Authentication</string>
+    <string name="lbl_about">About</string>
+    <string name="lbl_hosts">XBMC host</string>
+    <string name="lbl_host_summary">XBMC host including port (e.g. 192.168.1.100:888)</string>
+    <string name="lbl_use_auth_summary">Use authentication</string>
+    <string name="message_about"><![CDATA[
+    	<p>
+    		This application was created by Anders Persson,  
+    		my site is at <a href="http://anderspersson.com">anderspersson.com</a>.
+    	</p> 
+    
+    	<p>
+    		Thanks to P.J Onari for making his icons available to the public - 
+    		<a href="http://somerandomdude.com/work/iconic/">somerandomdude.com</a>
+    	</p>
+    ]]>
+    </string>
+    <string name="lbl_troubleshoot">Troubleshooting</string>
+    <string name="message_troubleshooting"><![CDATA[
+    
+  		<p>1. Have you enabled XBMCs web API?</p>
+  		<p>2. Is the XBMC computer sleeping? Is XBMC running?</p>
+  		<p>3. Did you provide the correct settings? Did you specify port for example?</p>
+  		<p>4. Can you connect using other apps like the official XBMC remote?</p>
+    ]]>
+    </string>
+    	
+</resources>

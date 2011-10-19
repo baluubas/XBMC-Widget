@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.anderspersson.xbmcwidget"
+    android:versionCode="1"
+    android:versionName="1.0">
+    
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <supports-screens 
+                  android:smallScreens="false"
+                  android:normalScreens="false"
+                  android:largeScreens="true"
+                  android:xlargeScreens="true"
+                  android:anyDensity="false" />
+    <uses-sdk android:minSdkVersion="12" android:targetSdkVersion="12"></uses-sdk>
+<application 
+	android:label="XBMC Widget" 
+	android:icon="@drawable/ic_launcher" 
+	android:logo="@drawable/ic_launcher">
+
+	<activity 
+		android:name=".ApplicationPreferenceActivity" 
+		android:label="@string/app_name"
+		android:theme="@android:style/Theme.Holo.Light">
+		
+		<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>	
+	</activity>
+
+    <receiver android:name="XbmcWidget" android:label="XBMCWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/xbmc_widget_provider" />
+        </receiver>
+        
+         <service android:name="XbmcService" />
+</application>
+</manifest>
