@@ -27,7 +27,6 @@
     </string>
     <string name="lbl_troubleshoot">Troubleshooting</string>
     <string name="message_troubleshooting"><![CDATA[
-    
   		<p>1. Have you enabled XBMCs web API?</p>
   		<p>2. Is the XBMC computer sleeping? Is XBMC running?</p>
   		<p>3. Did you provide the correct settings? Did you specify port for example?</p>

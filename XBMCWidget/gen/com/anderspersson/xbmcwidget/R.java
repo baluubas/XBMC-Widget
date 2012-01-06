@@ -10,88 +10,81 @@ package com.anderspersson.xbmcwidget;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int darkblue=0x7f050002;
+        public static final int lightblue=0x7f050000;
+        public static final int orange=0x7f050001;
+        public static final int transparent=0x7f050003;
+    }
+    public static final class dimen {
+        public static final int widget_margin=0x7f060000;
+    }
     public static final class drawable {
-        public static final int back_button=0x7f020000;
-        public static final int back_button_normal=0x7f020001;
-        public static final int back_button_pressed=0x7f020002;
-        public static final int button_bg=0x7f020003;
-        public static final int context_button=0x7f020004;
-        public static final int context_button_normal=0x7f020005;
-        public static final int context_button_pressed=0x7f020006;
-        public static final int down_button=0x7f020007;
-        public static final int down_button_normal=0x7f020008;
-        public static final int down_button_pressed=0x7f020009;
-        public static final int fullscreen_button=0x7f02000a;
-        public static final int fullscreen_button_normal=0x7f02000b;
-        public static final int fullscreen_button_pressed=0x7f02000c;
-        public static final int home_button=0x7f02000d;
-        public static final int home_button_normal=0x7f02000e;
-        public static final int home_button_pressed=0x7f02000f;
-        public static final int ic_launcher=0x7f020010;
-        public static final int ic_notification=0x7f020011;
-        public static final int jogdial=0x7f020012;
-        public static final int left_button=0x7f020013;
-        public static final int left_button_normal=0x7f020014;
-        public static final int left_button_pressed=0x7f020015;
-        public static final int osd_button=0x7f020016;
-        public static final int osd_button_normal=0x7f020017;
-        public static final int osd_button_pressed=0x7f020018;
-        public static final int playpause_button=0x7f020019;
-        public static final int playpause_button_normal=0x7f02001a;
-        public static final int playpause_button_pressed=0x7f02001b;
-        public static final int right_button=0x7f02001c;
-        public static final int right_button_normal=0x7f02001d;
-        public static final int right_button_pressed=0x7f02001e;
-        public static final int select_button=0x7f02001f;
-        public static final int select_button_normal=0x7f020020;
-        public static final int select_button_pressed=0x7f020021;
-        public static final int up_button=0x7f020022;
-        public static final int up_button_normal=0x7f020023;
-        public static final int up_button_pressed=0x7f020024;
-        public static final int widget_bg=0x7f020025;
+        public static final int adummy=0x7f020000;
+        public static final int arrowdown=0x7f020001;
+        public static final int arrowleft=0x7f020002;
+        public static final int arrowright=0x7f020003;
+        public static final int arrowup=0x7f020004;
+        public static final int back=0x7f020005;
+        public static final int background=0x7f020006;
+        public static final int clicked=0x7f020007;
+        public static final int context=0x7f020008;
+        public static final int fullscreen=0x7f020009;
+        public static final int home=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int ic_notification=0x7f02000c;
+        public static final int osd=0x7f02000d;
+        public static final int playpause=0x7f02000e;
+        public static final int preview=0x7f02000f;
+        public static final int select=0x7f020010;
     }
     public static final class id {
-        public static final int TableLayout01=0x7f060002;
-        public static final int about_message=0x7f060000;
-        public static final int back=0x7f060009;
-        public static final int context=0x7f060005;
-        public static final int down=0x7f06000f;
-        public static final int home=0x7f060004;
-        public static final int left=0x7f06000d;
-        public static final int leftpane=0x7f060003;
-        public static final int navigation=0x7f06000a;
-        public static final int playpause=0x7f060007;
-        public static final int right=0x7f06000e;
-        public static final int select=0x7f06000b;
-        public static final int togglefullscreen=0x7f060006;
-        public static final int toggleosd=0x7f060008;
-        public static final int troubleshooting_message=0x7f060001;
-        public static final int up=0x7f06000c;
+        public static final int about_message=0x7f090000;
+        public static final int back=0x7f090010;
+        public static final int context=0x7f09000e;
+        public static final int down=0x7f09000c;
+        public static final int down2=0x7f09000d;
+        public static final int home=0x7f090002;
+        public static final int left=0x7f090006;
+        public static final int left2=0x7f090007;
+        public static final int playpause=0x7f09000f;
+        public static final int right=0x7f090008;
+        public static final int right2=0x7f090009;
+        public static final int select=0x7f090005;
+        public static final int togglefullscreen=0x7f090003;
+        public static final int toggleosd=0x7f090004;
+        public static final int troubleshooting_message=0x7f090001;
+        public static final int up=0x7f09000a;
+        public static final int up2=0x7f09000b;
     }
     public static final class layout {
         public static final int about=0x7f030000;
         public static final int host_setting=0x7f030001;
-        public static final int preference_headers=0x7f030002;
-        public static final int troubleshooting=0x7f030003;
-        public static final int widget=0x7f030004;
+        public static final int preference_headers_hc=0x7f030002;
+        public static final int settings_pre_v11=0x7f030003;
+        public static final int troubleshooting=0x7f030004;
+        public static final int widget=0x7f030005;
     }
     public static final class string {
-        public static final int app_name=0x7f050000;
-        public static final int error_content_text=0x7f050002;
-        public static final int error_content_title=0x7f050001;
-        public static final int error_ticker_text=0x7f050003;
-        public static final int lbl_about=0x7f050009;
-        public static final int lbl_host=0x7f050004;
-        public static final int lbl_host_summary=0x7f05000b;
-        public static final int lbl_hosts=0x7f05000a;
-        public static final int lbl_password=0x7f050007;
-        public static final int lbl_port=0x7f050005;
-        public static final int lbl_troubleshoot=0x7f05000e;
-        public static final int lbl_use_auth=0x7f050008;
-        public static final int lbl_use_auth_summary=0x7f05000c;
-        public static final int lbl_username=0x7f050006;
-        public static final int message_about=0x7f05000d;
-        public static final int message_troubleshooting=0x7f05000f;
+        public static final int app_name=0x7f070000;
+        public static final int error_content_text=0x7f070002;
+        public static final int error_content_title=0x7f070001;
+        public static final int error_ticker_text=0x7f070003;
+        public static final int lbl_about=0x7f070009;
+        public static final int lbl_host=0x7f070004;
+        public static final int lbl_host_summary=0x7f07000b;
+        public static final int lbl_hosts=0x7f07000a;
+        public static final int lbl_password=0x7f070007;
+        public static final int lbl_port=0x7f070005;
+        public static final int lbl_troubleshoot=0x7f07000e;
+        public static final int lbl_use_auth=0x7f070008;
+        public static final int lbl_use_auth_summary=0x7f07000c;
+        public static final int lbl_username=0x7f070006;
+        public static final int message_about=0x7f07000d;
+        public static final int message_troubleshooting=0x7f07000f;
+    }
+    public static final class style {
+        public static final int WidgetButton=0x7f080000;
     }
     public static final class xml {
         public static final int xbmc_widget_provider=0x7f040000;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceScreen android:title="@string/lbl_hosts">            
+	    <EditTextPreference
+	    	android:key="hostname_preference"
+			android:title="@string/lbl_host"
+			android:text="http://"
+	        android:summary="@string/lbl_host_summary" />
+	        
+	     <CheckBoxPreference
+	     	android:key="use_auth_preference"
+	        android:title="@string/lbl_use_auth"
+	        android:summary="@string/lbl_use_auth_summary" />
+	    
+	    <PreferenceCategory android:title="Authentication">            
+	         <EditTextPreference
+	         	android:key="username_preference"
+	         	android:title="@string/lbl_username" 
+	         	android:dependency="use_auth_preference" />
+	         	
+	         <EditTextPreference 
+	         	android:key="password_preference"
+	         	android:title="@string/lbl_password" 
+	         	android:dependency="use_auth_preference" 
+	         	android:inputType="textPassword" />
+	  </PreferenceCategory> 
+  	</PreferenceScreen>      
+	<PreferenceScreen android:title="@string/lbl_troubleshoot"> 
+		<intent 
+		    android:action="android.intent.action.MAIN" 
+		    android:targetPackage="com.anderspersson.xbmcwidget" 
+		    android:targetClass="com.anderspersson.xbmcwidget.TroubleshootingPreferenceActivity" /> 
+	</PreferenceScreen>       
+	
+	<PreferenceScreen android:title="@string/lbl_about"> 
+		<intent 
+		    android:action="android.intent.action.MAIN" 
+		    android:targetPackage="com.anderspersson.xbmcwidget" 
+		    android:targetClass="com.anderspersson.xbmcwidget.AboutPreferenceActivity" /> 
+	</PreferenceScreen>  
+
+</PreferenceScreen>

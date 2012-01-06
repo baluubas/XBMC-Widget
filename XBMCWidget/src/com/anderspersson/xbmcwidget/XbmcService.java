@@ -113,7 +113,7 @@ public class XbmcService extends IntentService
 				Intent.ACTION_VIEW, 
 				null, 
 				this, 
-				ApplicationPreferenceActivity.class);
+				MainActivity.class);
 		notificationIntent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, "com.anderspersson.xbmcwidget.TroubleshootingPreferenceFragment");
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 		
