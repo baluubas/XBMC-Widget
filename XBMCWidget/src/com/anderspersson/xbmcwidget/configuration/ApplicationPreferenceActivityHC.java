@@ -1,6 +1,9 @@
-package com.anderspersson.xbmcwidget;
+package com.anderspersson.xbmcwidget.configuration;
 
 import java.util.List;
+
+import com.anderspersson.xbmcwidget.R;
+
 import android.preference.PreferenceActivity;
 
 public class ApplicationPreferenceActivityHC extends PreferenceActivity {

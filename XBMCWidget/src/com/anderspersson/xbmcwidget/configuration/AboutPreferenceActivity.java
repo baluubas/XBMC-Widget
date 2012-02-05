@@ -1,4 +1,6 @@
-package com.anderspersson.xbmcwidget;
+package com.anderspersson.xbmcwidget.configuration;
+
+import com.anderspersson.xbmcwidget.R;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,5 +17,4 @@ public class AboutPreferenceActivity extends Activity {
 		message.setText(Html.fromHtml(getString(R.string.message_about)));	
 		setContentView(v);
 	}
-	
 }

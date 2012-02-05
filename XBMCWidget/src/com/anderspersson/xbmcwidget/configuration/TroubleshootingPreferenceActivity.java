@@ -1,11 +1,11 @@
-package com.anderspersson.xbmcwidget;
+package com.anderspersson.xbmcwidget.configuration;
+
+import com.anderspersson.xbmcwidget.R;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class TroubleshootingPreferenceActivity extends Activity {	

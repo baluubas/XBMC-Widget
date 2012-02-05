@@ -1,4 +1,6 @@
-package com.anderspersson.xbmcwidget;
+package com.anderspersson.xbmcwidget.configuration;
+
+import com.anderspersson.xbmcwidget.R;
 
 import android.app.Fragment;
 import android.os.Bundle;

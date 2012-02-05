@@ -1,4 +1,4 @@
-package com.anderspersson.xbmcwidget;
+package com.anderspersson.xbmcwidget.configuration;
 
 import android.app.Activity;
 import android.content.Intent;

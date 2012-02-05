@@ -1,4 +1,6 @@
-package com.anderspersson.xbmcwidget;
+package com.anderspersson.xbmcwidget.remote;
+
+import com.anderspersson.xbmcwidget.R;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetProvider;
@@ -8,7 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-public class XbmcWidget extends AppWidgetProvider 
+public class RemoteWidget extends AppWidgetProvider 
 {	
     public static final String PLAYPAUSE_ACTION = "com.anderspersson.xbmcwidget.PLAY";
     public static final String PAUSE_ACTION = "com.anderspersson.xbmcwidget.PAUSE";
@@ -30,8 +32,8 @@ public class XbmcWidget extends AppWidgetProvider
         RemoteViews remoteViews;
         ComponentName watchWidget;
 
-        remoteViews = new RemoteViews( context.getPackageName(), R.layout.widget );
-        watchWidget = new ComponentName( context, XbmcWidget.class );
+        remoteViews = new RemoteViews( context.getPackageName(), R.layout.remote_widget );
+        watchWidget = new ComponentName( context, RemoteWidget.class );
         
         Intent intent = new Intent(context, XbmcService.class);
         context.startService(intent);

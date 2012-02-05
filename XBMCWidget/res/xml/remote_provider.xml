@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="290dp"
+    android:initialLayout="@layout/remote_widget"
+    android:minHeight="200dp"
+	android:previewImage="@drawable/remote_preview" />
