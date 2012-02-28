@@ -22,7 +22,7 @@ import android.widget.RemoteViewsService;
 public class RecentTvService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
+        return new RecentTvRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 }
 

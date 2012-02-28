@@ -43,16 +43,22 @@
             android:resource="@xml/remote_provider" />
     </receiver>
     
-    <receiver android:name=".recenttv.RecentTvWidget" android:label="XBMC Recent TV">
+    <receiver 
+        android:name=".recenttv.RecentTvWidget" 
+        android:label="XBMC Recent TV">
+    	
     	<intent-filter>
         	<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		</intent-filter>
+		<intent-filter>
+        	<action android:name="com.anderspersson.xbmcwidget.recenttv.CLOCK_UPDATE" />
 		</intent-filter>
         <meta-data
         	android:name="android.appwidget.provider"
             android:resource="@xml/recent_tv_provider" />
     </receiver>
         
-	<service android:name=".remote.XbmcService" />
+	<service android:name=".xbmc.XbmcService" />
 	<service android:name=".recenttv.RecentTvService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />

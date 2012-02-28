@@ -4,15 +4,16 @@ import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 
-//
-// { "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "file": "smb://HP-MEDIA-SERVER/Photos/test3" } }, "id": 1 }
-public class PlayVideoCommand extends XbmcRequest {
+public class PlayVideoCommand extends XbmcRequestBase<Boolean> {
 
-	public PlayVideoCommand(SharedPreferences preferences) {
+	private String path;
+	
+	public PlayVideoCommand(SharedPreferences preferences, String path) {
 		super(preferences);
+		this.path = path;
 	}
 
-	public Boolean execute(String path) throws Exception {
+	public Boolean execute() throws Exception {
 		
 		JSONObject request = new JSONObject();
 		JSONObject item = new JSONObject();

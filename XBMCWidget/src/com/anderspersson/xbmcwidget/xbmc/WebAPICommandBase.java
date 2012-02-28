@@ -5,7 +5,7 @@ import org.apache.http.HttpEntity;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
-public abstract class WebAPICommandBase extends XbmcRequest {
+public abstract class WebAPICommandBase extends XbmcRequestBase<HttpEntity> {
 
 	public WebAPICommandBase(SharedPreferences preferences) {
 		super(preferences);

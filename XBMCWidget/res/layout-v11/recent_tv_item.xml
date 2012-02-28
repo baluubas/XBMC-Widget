@@ -5,15 +5,34 @@
     android:id="@+id/recent_tv_item"
     android:background="#33000000"
     android:padding="2dp">
+
+   	<TextView 
+        android:id="@+id/default_header"
+        android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center" 
+		android:textSize="20sp"
+		android:maxLines="2"
+		android:ellipsize="end"
+		android:paddingBottom="25sp" />
     
 	<ImageView 
-	        android:id="@+id/fanArt"
-	        android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="#A9A9A9" 
-			android:gravity="center" 
-			android:padding="1px"
-			android:adjustViewBounds="true" />
+        android:id="@+id/fanArt"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="#A9A9A9" 
+		android:gravity="center" 
+		android:padding="1px"
+		android:src="@drawable/default_fan_art"
+		android:adjustViewBounds="true" />
+	
+	<ImageView 
+        android:id="@+id/new_icon"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="1px"
+		android:src="@drawable/new_label" />
+	
     
     <LinearLayout
         android:layout_width="wrap_content"
@@ -64,9 +83,10 @@
         <TextView 
 	    	android:id="@+id/age"
 	    	android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
+	    	android:layout_height="fill_parent"
 	    	android:textColor="#ffffff"
 	    	android:textStyle="bold"
+	    	android:gravity="right|center_vertical"
 	    	android:layout_marginLeft="4dp"
 	    	android:textSize="12sp" />
         

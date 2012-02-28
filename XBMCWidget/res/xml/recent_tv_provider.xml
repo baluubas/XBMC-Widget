@@ -4,5 +4,5 @@
     android:minWidth="200dp"
     android:initialLayout="@layout/recent_tv_widget"
     android:minHeight="200dp"
-    android:updatePeriodMillis="30000"
+    android:updatePeriodMillis="0"
 	android:previewImage="@drawable/recent_tv_preview" />

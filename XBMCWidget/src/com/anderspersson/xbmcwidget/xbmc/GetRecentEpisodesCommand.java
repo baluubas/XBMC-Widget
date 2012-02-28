@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 
-public class GetRecentEpisodesCommand extends XbmcRequest {
+public class GetRecentEpisodesCommand extends XbmcRequestBase<List<TvShowEpisode>> {
 
 	public GetRecentEpisodesCommand(SharedPreferences preferences) {
 		super(preferences);
@@ -35,7 +35,8 @@ public class GetRecentEpisodesCommand extends XbmcRequest {
 				episode.getInt("season"), 
 				episode.getInt("episode"),
 				episode.getString("fanart"),
-				episode.getString("firstaired")));
+				episode.getString("firstaired"),
+				episode.getInt("playcount")));
 		}
 		
 		return result;
@@ -53,6 +54,8 @@ public class GetRecentEpisodesCommand extends XbmcRequest {
 		properties.put("season");
 		properties.put("file");
 		properties.put("firstaired");
+		properties.put("playcount");
+
 		
 		// Seems that the 2.0 json-rpc api changed somewhere after 
 		// 10.1 Dharma release and fields was renamed to properties.

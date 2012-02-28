@@ -17,6 +17,7 @@ public class TvShowEpisode {
 	private String file;
 	private Bitmap fanArt;
 	private Date fileDate;
+	private int playCount;
 	
 	public TvShowEpisode(
 		String file, 
@@ -25,13 +26,16 @@ public class TvShowEpisode {
 		int season, 
 		int episode, 
 		String fanArtPath,
-		String firstAired) {
+		String firstAired,
+		int playCount) {
+		
 		this.file = file;
 		this.tvShowTitle = tvShowTitle;
 		this.episodeTitle = episodeTitle;
 		this.season = season;
 		this.episode = episode;
 		this.fanArtPath = fanArtPath;
+		this.playCount = playCount;
 		
 		try {
 			SimpleDateFormat formatter = new SimpleDateFormat("y-M-d");
@@ -84,9 +88,13 @@ public class TvShowEpisode {
 			return daysOld + "d ago";
 		}
 		if(daysOld > 0) {
-			return daysOld + "yesterday";
+			return "yesterday";
 		}
 		
 		return "today";
+	}
+
+	public boolean hasBeenSeen() {
+		return playCount > 0;
 	}
 }
