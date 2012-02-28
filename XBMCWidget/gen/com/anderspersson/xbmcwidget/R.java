@@ -49,7 +49,7 @@ public final class R {
         public static final int default_header=0x7f090002;
         public static final int down=0x7f090014;
         public static final int down2=0x7f090015;
-        public static final int empty_view=0x7f090009;
+        public static final int empty_view=0x7f090008;
         public static final int fanArt=0x7f090003;
         public static final int home=0x7f09000a;
         public static final int item_header=0x7f090005;
@@ -62,7 +62,7 @@ public final class R {
         public static final int right=0x7f090010;
         public static final int right2=0x7f090011;
         public static final int select=0x7f09000d;
-        public static final int stack_view=0x7f090008;
+        public static final int stack_view=0x7f090009;
         public static final int togglefullscreen=0x7f09000b;
         public static final int toggleosd=0x7f09000c;
         public static final int troubleshooting_message=0x7f090019;

@@ -1,11 +1,6 @@
 package com.anderspersson.xbmcwidget.xbmc;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.anderspersson.xbmcwidget.common.ErrorNotifier;
-import com.anderspersson.xbmcwidget.remote.RemoteWidget;
 import android.app.IntentService;
 
 import android.content.Intent;

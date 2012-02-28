@@ -2,16 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/widget_margin">
-    
-    <StackView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/stack_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:loopViews="false"
-        
-         />
     
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/empty_view"
@@ -20,6 +10,6 @@
         android:gravity="center"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:text="Loading TV Shows"
+        android:text="Dooh - widget ain't ready yet"
         android:textSize="20sp" />
 </FrameLayout>
