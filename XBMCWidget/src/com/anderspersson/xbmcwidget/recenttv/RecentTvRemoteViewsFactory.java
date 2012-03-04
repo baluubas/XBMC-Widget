@@ -52,7 +52,7 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
     	
         rv.setTextViewText(R.id.item_header, episode.getTvShowTitle());
         rv.setTextViewText(R.id.default_header, episode.getTvShowTitle());
-        rv.setTextViewText(R.id.item_subheader, makeEpisodeTitle(episode));
+        rv.setTextViewText(R.id.item_subheader, episode.getFullEpisodeTitle());
         rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge());
         rv.setInt(R.id.fanArt, "setBackgroundColor", getBorderColor());
         rv.setViewVisibility(R.id.new_icon, getNewIconVisibility(episode));
@@ -81,10 +81,6 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
 		return this.hadErrorsOnLastUpdate ? 
 				Color.RED : 
 				Color.rgb(169, 169, 169);
-	}
-
-	private String makeEpisodeTitle(TvShowEpisode episode) {
-		return episode.getEpisodeTitle() + " - S" + episode.getSeason() + "E" + episode.getEpisode();
 	}
 
     public RemoteViews getLoadingView() {

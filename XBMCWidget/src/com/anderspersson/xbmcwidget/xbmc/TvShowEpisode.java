@@ -97,4 +97,8 @@ public class TvShowEpisode {
 	public boolean hasBeenSeen() {
 		return playCount > 0;
 	}
+
+	public String getFullEpisodeTitle() {
+		return getEpisodeTitle() + " - S" + getSeason() + "E" + getEpisode();
+	}
 }

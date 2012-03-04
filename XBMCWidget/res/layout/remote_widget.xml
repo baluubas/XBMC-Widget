@@ -24,7 +24,7 @@
 		
 		<ImageButton
 		    android:id="@+id/home"
-		    style="@style/WidgetButton"
+		    style="@style/RemoteButton"
 		    android:src="@drawable/home" />
 
 		<FrameLayout
@@ -34,7 +34,7 @@
 		
 		<ImageButton 
 			android:id="@+id/togglefullscreen"
-            style="@style/WidgetButton" 
+            style="@style/RemoteButton" 
             android:src="@drawable/fullscreen" />
 		
 		<FrameLayout
@@ -44,7 +44,7 @@
 		
 		<ImageButton 
 			android:id="@+id/toggleosd"
-		 	style="@style/WidgetButton" 
+		 	style="@style/RemoteButton" 
 		 	android:src="@drawable/osd" />	
 	</LinearLayout>
 	
@@ -163,7 +163,7 @@
 		
 		<ImageButton 
 			android:id="@+id/context"
-		 	style="@style/WidgetButton" 
+		 	style="@style/RemoteButton" 
 		 	android:src="@drawable/context" />	
 
 		<FrameLayout
@@ -173,7 +173,7 @@
 				
 		<ImageButton 
 			android:id="@+id/playpause"
-		 	style="@style/WidgetButton" 
+		 	style="@style/RemoteButton" 
 		 	android:src="@drawable/playpause" />	
 
 		<FrameLayout
@@ -183,7 +183,7 @@
 			    			
 		<ImageButton
 		    android:id="@+id/back"
-		    style="@style/WidgetButton"
+		    style="@style/RemoteButton"
 		    android:padding="0dp"
 		    android:src="@drawable/back" />
 		

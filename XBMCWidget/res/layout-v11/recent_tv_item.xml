@@ -5,16 +5,6 @@
     android:id="@+id/recent_tv_item"
     android:background="#33000000"
     android:padding="2dp">
-
-   	<TextView 
-        android:id="@+id/default_header"
-        android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center" 
-		android:textSize="20sp"
-		android:maxLines="2"
-		android:ellipsize="end"
-		android:paddingBottom="25sp" />
     
 	<ImageView 
         android:id="@+id/fanArt"
@@ -25,7 +15,17 @@
 		android:padding="1px"
 		android:src="@drawable/default_fan_art"
 		android:adjustViewBounds="true" />
-	
+
+	<TextView 
+        android:id="@+id/default_header"
+        android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center" 
+		android:textSize="20sp"
+		android:maxLines="2"
+		android:ellipsize="end"
+		android:paddingBottom="25sp" />
+		
 	<ImageView 
         android:id="@+id/new_icon"
         android:layout_width="wrap_content"

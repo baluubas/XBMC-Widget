@@ -13,6 +13,7 @@
                     android:normalScreens="true"
                     android:smallScreens="true" />
 <application
+    android:name=".common.XbmcApplication"
     android:hardwareAccelerated="true" 
 	android:label="XBMC Widget" 
 	android:icon="@drawable/ic_launcher" 
@@ -53,13 +54,20 @@
 		<intent-filter>
         	<action android:name="com.anderspersson.xbmcwidget.recenttv.CLOCK_UPDATE" />
 		</intent-filter>
+		<intent-filter>
+        	<action android:name="com.anderspersson.xbmcwidget.recenttv.SHOWS_UPDATED" />
+		</intent-filter>
+		<intent-filter>
+        	<action android:name="com.anderspersson.xbmcwidget.recenttv.NAVIGATE" />
+		</intent-filter>
         <meta-data
         	android:name="android.appwidget.provider"
             android:resource="@xml/recent_tv_provider" />
     </receiver>
         
 	<service android:name=".xbmc.XbmcService" />
-	<service android:name=".recenttv.RecentTvService"
+	<service android:name=".recenttv.RefreshRecentTvIntentService" />
+	<service android:name=".recenttv.RecentTvRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
 </application>

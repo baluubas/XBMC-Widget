@@ -17,10 +17,10 @@ public class RemoteWidget extends AppWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
         RemoteViews remoteViews;
-        ComponentName watchWidget;
+        ComponentName remoteWidget;
 
         remoteViews = new RemoteViews( context.getPackageName(), R.layout.remote_widget );
-        watchWidget = new ComponentName( context, RemoteWidget.class );
+        remoteWidget = new ComponentName( context, RemoteWidget.class );
         
         Intent intent = new Intent(context, XbmcService.class);
         context.startService(intent);
@@ -37,7 +37,7 @@ public class RemoteWidget extends AppWidgetProvider
         setupButton(context, remoteViews, XbmcService.HOME_ACTION, R.id.home);
         setupButton(context, remoteViews, XbmcService.CONTEXT_ACTION, R.id.context);
         
-        appWidgetManager.updateAppWidget( watchWidget, remoteViews );	
+        appWidgetManager.updateAppWidget( remoteWidget, remoteViews );	
 	}
 
 	private void setupButton(Context context, RemoteViews remoteViews, String action, int id) {

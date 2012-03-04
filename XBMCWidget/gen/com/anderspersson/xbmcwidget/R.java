@@ -23,51 +23,55 @@ public final class R {
         public static final int adummy=0x7f020000;
         public static final int arrowdown=0x7f020001;
         public static final int arrowleft=0x7f020002;
-        public static final int arrowright=0x7f020003;
-        public static final int arrowup=0x7f020004;
-        public static final int back=0x7f020005;
-        public static final int background=0x7f020006;
-        public static final int clicked=0x7f020007;
-        public static final int context=0x7f020008;
-        public static final int default_fan_art=0x7f020009;
-        public static final int fullscreen=0x7f02000a;
-        public static final int home=0x7f02000b;
-        public static final int ic_launcher=0x7f02000c;
-        public static final int ic_notification=0x7f02000d;
-        public static final int new_label=0x7f02000e;
-        public static final int osd=0x7f02000f;
-        public static final int playpause=0x7f020010;
-        public static final int recent_tv_preview=0x7f020011;
-        public static final int remote_preview=0x7f020012;
-        public static final int select=0x7f020013;
+        public static final int arrowleft_compact=0x7f020003;
+        public static final int arrowright=0x7f020004;
+        public static final int arrowright_compact=0x7f020005;
+        public static final int arrowup=0x7f020006;
+        public static final int back=0x7f020007;
+        public static final int background=0x7f020008;
+        public static final int clicked=0x7f020009;
+        public static final int context=0x7f02000a;
+        public static final int default_fan_art=0x7f02000b;
+        public static final int fullscreen=0x7f02000c;
+        public static final int home=0x7f02000d;
+        public static final int ic_launcher=0x7f02000e;
+        public static final int ic_notification=0x7f02000f;
+        public static final int new_label=0x7f020010;
+        public static final int osd=0x7f020011;
+        public static final int playpause=0x7f020012;
+        public static final int recent_tv_preview=0x7f020013;
+        public static final int remote_preview=0x7f020014;
+        public static final int select=0x7f020015;
     }
     public static final class id {
         public static final int about_message=0x7f090000;
         public static final int age=0x7f090007;
-        public static final int back=0x7f090018;
-        public static final int context=0x7f090016;
-        public static final int default_header=0x7f090002;
-        public static final int down=0x7f090014;
-        public static final int down2=0x7f090015;
-        public static final int empty_view=0x7f090008;
-        public static final int fanArt=0x7f090003;
-        public static final int home=0x7f09000a;
+        public static final int back=0x7f09001a;
+        public static final int context=0x7f090018;
+        public static final int default_header=0x7f090003;
+        public static final int down=0x7f090016;
+        public static final int down2=0x7f090017;
+        public static final int empty_view=0x7f09000b;
+        public static final int fanArt=0x7f090002;
+        public static final int home=0x7f09000c;
         public static final int item_header=0x7f090005;
         public static final int item_subheader=0x7f090006;
-        public static final int left=0x7f09000e;
-        public static final int left2=0x7f09000f;
+        public static final int left=0x7f090010;
+        public static final int left2=0x7f090011;
         public static final int new_icon=0x7f090004;
-        public static final int playpause=0x7f090017;
+        public static final int next_show=0x7f090009;
+        public static final int playpause=0x7f090019;
+        public static final int prev_show=0x7f090008;
         public static final int recent_tv_item=0x7f090001;
-        public static final int right=0x7f090010;
-        public static final int right2=0x7f090011;
-        public static final int select=0x7f09000d;
-        public static final int stack_view=0x7f090009;
-        public static final int togglefullscreen=0x7f09000b;
-        public static final int toggleosd=0x7f09000c;
-        public static final int troubleshooting_message=0x7f090019;
-        public static final int up=0x7f090012;
-        public static final int up2=0x7f090013;
+        public static final int right=0x7f090012;
+        public static final int right2=0x7f090013;
+        public static final int select=0x7f09000f;
+        public static final int stack_view=0x7f09000a;
+        public static final int togglefullscreen=0x7f09000d;
+        public static final int toggleosd=0x7f09000e;
+        public static final int troubleshooting_message=0x7f09001b;
+        public static final int up=0x7f090014;
+        public static final int up2=0x7f090015;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -98,7 +102,8 @@ public final class R {
         public static final int message_troubleshooting=0x7f07000f;
     }
     public static final class style {
-        public static final int WidgetButton=0x7f080000;
+        public static final int RecentTvButton=0x7f080001;
+        public static final int RemoteButton=0x7f080000;
     }
     public static final class xml {
         public static final int recent_tv_provider=0x7f040000;
