@@ -14,13 +14,13 @@ public class RecentTvRefreshPrefUpdater {
 	}
 
 	private void setValues() {
-		String text = pref.getText();
-		
-		if(text == null || text.length() == 0)  {
+		String timeAgoStr = pref.getSharedPreferences().getString("recenttv_last_refresh", "0");
+		String text = "";
+		if(timeAgoStr == null || timeAgoStr.length() == 0)  {
 			text = "Not yet";
 		}
 		else {
-			long timeAgo = Long.valueOf(text);
+			long timeAgo = Long.valueOf(timeAgoStr);
 			text = TimeAgo.toFriendlyString(timeAgo);
 		}
 		

@@ -26,7 +26,7 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		if(action.equals(RecentTvWidget.RECENT_TV_UPDATE_WIDGET)) {
 			createWidget(context, intent.getIntExtra("widgetId", 0));
 		}
-		else if(action.equals(RecentTvWidget.RECENT_TV_REFRESH)) {
+		else if(action.equals(RecentTvRefreshedIntent.REFRESHED)) {
 			refreshWidgets(context);
 		}
 		else if(action.equals(XbmcService.PLAY_EPISODE_ACTION)) {

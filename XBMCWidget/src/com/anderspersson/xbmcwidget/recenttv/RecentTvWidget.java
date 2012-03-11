@@ -28,7 +28,6 @@ import android.os.Build;
 public class RecentTvWidget extends AppWidgetProvider {
 
 	public static final String RECENT_TV_UPDATE_WIDGET = "com.anderspersson.xbmcwidget.recenttv.UPDATE";
-	public static final String RECENT_TV_REFRESH = "com.anderspersson.xbmcwidget.recenttv.UPDATE_EPISODES";
 	
 	@Override
     public void onDeleted(Context context, int[] appWidgetIds) {
@@ -66,8 +65,7 @@ public class RecentTvWidget extends AppWidgetProvider {
 	}
 	
 	private PendingIntent createRefreshIntent(Context context) {
-        Intent intent = new Intent(context, getRecentTvWidgetRenderIntentService());
-        intent.setAction(RECENT_TV_REFRESH);
+        Intent intent = new Intent(context, RefreshRecentTvIntentService.class);
         return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 	
