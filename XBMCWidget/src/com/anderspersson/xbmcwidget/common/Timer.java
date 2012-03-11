@@ -3,34 +3,33 @@ package com.anderspersson.xbmcwidget.common;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class Timer {
-	private int updateIntervalMilliseconds = 30 * 60 * 1000;
-    
-	public static final String CLOCK_TICK = "com.anderspersson.xbmcwidget.recenttv.CLOCK_UPDATE";
-    
-    private PendingIntent createClockTickIntent(Context context) {
-        Intent intent = new Intent(CLOCK_TICK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        return pendingIntent;
-    }
+    private PendingIntent pendingIntent;
+	
+    public Timer(PendingIntent pendingIntent) {
+		this.pendingIntent = pendingIntent;
+	}
 
 	public void enable(Context context) {
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String refreshIntervalMinutesStr = prefs.getString("recenttv_refresh_interval_preference", "30");
+		int refreshIntervalMinutes = Integer.valueOf(refreshIntervalMinutesStr);
+		int intervalMilliseconds = refreshIntervalMinutes * 60 * 1000;
+		
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		   alarmManager.setRepeating(
 				   AlarmManager.RTC_WAKEUP, 
-				   System.currentTimeMillis() + updateIntervalMilliseconds, 
-				   updateIntervalMilliseconds, 
-				   createClockTickIntent(context));
+				   System.currentTimeMillis() + intervalMilliseconds, 
+				   intervalMilliseconds, 
+				   pendingIntent);
 	}
 
 	public void disable(Context context) {
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(createClockTickIntent(context));
-	}
-
-	public boolean isTickIntent(Intent intent) {
-		return CLOCK_TICK.equals(intent.getAction());
+        alarmManager.cancel(pendingIntent);
 	}
 }

@@ -16,6 +16,9 @@
 
 package com.anderspersson.xbmcwidget.recenttv;
 
+import com.anderspersson.xbmcwidget.common.Timer;
+
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -24,12 +27,8 @@ import android.os.Build;
 
 public class RecentTvWidget extends AppWidgetProvider {
 
-	private IRecentTvWidgetHelper widgetHelper;
-	
-
-	public RecentTvWidget() {
-		widgetHelper = getWidgetHelperBasedOnBuildVersion();
-	}
+	public static final String RECENT_TV_UPDATE_WIDGET = "com.anderspersson.xbmcwidget.recenttv.UPDATE";
+	public static final String RECENT_TV_REFRESH = "com.anderspersson.xbmcwidget.recenttv.UPDATE_EPISODES";
 	
 	@Override
     public void onDeleted(Context context, int[] appWidgetIds) {
@@ -39,36 +38,43 @@ public class RecentTvWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
-        widgetHelper.onDisabled(context);
+        Timer timer = new Timer(createRefreshIntent(context));
+        timer.disable(context);
     }
 
     @Override
     public void onEnabled(Context context) {
        super.onEnabled(context);
-       widgetHelper.onEnabled(context);
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-    	super.onReceive(context, intent);
-        widgetHelper.onReceive(context, intent);
+       Timer timer = new Timer(createRefreshIntent(context));
+       timer.enable(context);
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) { 
-    	for (int i = 0; i < appWidgetIds.length; ++i) {
-        	widgetHelper.updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
-    	}
+    	super.onUpdate(context, appWidgetManager, appWidgetIds);
     	
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+    	for (int i = 0; i < appWidgetIds.length; ++i) {
+    		Intent updateIntent = createUpdateIntent(context);
+    		updateIntent.setAction(RECENT_TV_UPDATE_WIDGET);
+    		updateIntent.putExtra("widgetId", appWidgetIds[i]);
+    		context.startService(updateIntent);
+    	}   	
     }
     
-	private IRecentTvWidgetHelper getWidgetHelperBasedOnBuildVersion() {
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-	   		 return new RecentTvWidgetHelper();
-	   	}   
-	   	else {
-	   		return new RecentTvWidgetHelperHC();
-	   	}
+	private Intent createUpdateIntent(Context context) {
+		return new Intent(context, getRecentTvWidgetRenderIntentService());
+	}
+	
+	private PendingIntent createRefreshIntent(Context context) {
+        Intent intent = new Intent(context, getRecentTvWidgetRenderIntentService());
+        intent.setAction(RECENT_TV_REFRESH);
+        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	}
+	
+	private Class<?> getRecentTvWidgetRenderIntentService() {
+		int honeycombVersion = 11;
+		return Build.VERSION.SDK_INT < honeycombVersion 
+				? RecentTvWidgetRenderIntentService.class
+				: RecentTvWidgetRenderIntentServiceHC.class; 
 	}
 }

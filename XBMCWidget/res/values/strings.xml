@@ -10,6 +10,9 @@
     <string name="lbl_password">Password</string>
     <string name="lbl_use_auth">Authentication</string>
     <string name="lbl_about">About</string>
+	<string name="lbl_recenttv">Recent TV</string>
+	<string name="lbl_refresh_interval">Refresh every</string>
+	<string name="lbl_refresh_interval_summary">How often to check XBMC for new episodes</string>
     <string name="lbl_hosts">XBMC host</string>
     <string name="lbl_host_summary">XBMC host including port (e.g. 192.168.1.100:888)</string>
     <string name="lbl_use_auth_summary">Use authentication</string>

@@ -20,7 +20,7 @@ public class HostsPreferenceFragment extends PreferenceFragment {
    		pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
    			public boolean onPreferenceChange(Preference preference, Object newValue) {
    				final EditTextPreference pref = (EditTextPreference)findPreference("username_preference");
-   				pref.setSummary(pref.getText());
+   				pref.setSummary((String)newValue);
    				return true;
    			}
    		});

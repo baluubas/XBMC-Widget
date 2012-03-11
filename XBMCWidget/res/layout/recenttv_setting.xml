@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+                
+    <ListPreference
+    	android:key="recenttv_refresh_interval_preference"
+		android:title="@string/lbl_refresh_interval"
+        android:summary="@string/lbl_refresh_interval_summary" />
+        
+	<EditTextPreference 
+	    android:key="recenttv_last_refresh" 
+	    android:title="Last refresh" 
+	    android:focusable="false" 
+	    android:clickable="false" />
+                  
+</PreferenceScreen>

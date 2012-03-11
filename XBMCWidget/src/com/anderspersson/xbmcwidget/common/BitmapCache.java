@@ -18,7 +18,7 @@ public class BitmapCache {
 		return _cache.get(key);
 	}
 	
-	public void Put(String key, Bitmap bitmap) {
+	public void put(String key, Bitmap bitmap) {
 		if(_cache.size() >= MaxItems) {
 			Iterator<String> iterator = _cache.keySet().iterator();
 		    _cache.remove(iterator.next());

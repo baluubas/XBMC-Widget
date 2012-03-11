@@ -1,8 +1,7 @@
 package com.anderspersson.xbmcwidget.recenttv;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
+import com.anderspersson.xbmcwidget.common.BitmapCache;
+import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.xbmc.DownloadBitmapCommand;
 
 import android.content.Context;
@@ -13,19 +12,19 @@ import android.util.Log;
 
 public class CachedTvShowFanArtDownloader {
 	private Context context;
-	private int MaxItems = 10;
-	private HashMap<String, Bitmap> _cache = new HashMap<String, Bitmap>();
+	private BitmapCache _cache;
 	
 	public CachedTvShowFanArtDownloader(Context context) {
 		this.context = context;
+		this._cache = ((XbmcWidgetApplication)context.getApplicationContext()).getBitmapCache();
 	}
 
 	public Bitmap download(String url) {
 		if(url == null)
 			return null;
 		
-		if(has(url)) {
-			return get(url);
+		if(_cache.has(url)) {
+			return _cache.get(url);
 		}
 		
 		try {
@@ -34,7 +33,7 @@ public class CachedTvShowFanArtDownloader {
 			Bitmap result = downloadCommand.execute();
 			
 			if(result != null) {
-				put(url, result);
+				_cache.put(url, result);
 			}
 			
 			return result;
@@ -44,22 +43,5 @@ public class CachedTvShowFanArtDownloader {
 					String.format("Failed to download fanart '%s' - using default.", url), ex);
 			return null;
 		}
-	}
-		
-	private Boolean has(String key) {
-		return _cache.containsKey(key);
-	}
-	
-	private Bitmap get(String key) {
-		return _cache.get(key);
-	}
-	
-	private void put(String key, Bitmap bitmap) {
-		if(_cache.size() >= MaxItems) {
-			Iterator<String> iterator = _cache.keySet().iterator();
-		    _cache.remove(iterator.next());
-		}
-		
-		_cache.put(key, bitmap);
 	}
 }

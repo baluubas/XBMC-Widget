@@ -25,7 +25,19 @@
 	         	android:dependency="use_auth_preference" 
 	         	android:inputType="textPassword" />
 	  </PreferenceCategory> 
-  	</PreferenceScreen>      
+  	</PreferenceScreen>    
+  	
+	<PreferenceScreen android:title="@string/lbl_recenttv">            
+        <ListPreference
+   			android:key="recenttv_refresh_interval_preference"
+			android:title="@string/lbl_refresh_interval"
+       		android:summary="@string/lbl_refresh_interval_summary" 
+       		android:entries="@array/refresh_intervals"
+           	android:entryValues="@array/refresh_interval_values" />
+        
+		<EditTextPreference android:key="recenttv_last_refresh" android:title="Last refreshed" android:focusable="false" />
+  	</PreferenceScreen>    
+	
 	<PreferenceScreen android:title="@string/lbl_troubleshoot"> 
 		<intent 
 		    android:action="android.intent.action.MAIN" 

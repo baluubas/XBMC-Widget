@@ -1,5 +1,6 @@
 package com.anderspersson.xbmcwidget.recenttv;
 
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -10,20 +11,58 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.Timer;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
-public class RecentTvWidgetHelperHC implements IRecentTvWidgetHelper {
-	private Timer refreshTimer = new Timer(); 
-    
-	public void onWidgetUpdate(Context context) {
+public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
+	public RecentTvWidgetRenderIntentServiceHC() {
+		super("RecentTvWidgetRenderIntentServiceHC");
+	}
+	
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		String action = intent.getAction();
+		Context context = getBaseContext();
+		
+		if(action.equals(RecentTvWidget.RECENT_TV_UPDATE_WIDGET)) {
+			createWidget(context, intent.getIntExtra("widgetId", 0));
+		}
+		else if(action.equals(RecentTvWidget.RECENT_TV_REFRESH)) {
+			refreshWidgets(context);
+		}
+		else if(action.equals(XbmcService.PLAY_EPISODE_ACTION)) {
+            handlePlayClick(context, intent.getStringExtra(XbmcService.EXTRA_ITEM));
+        }
+	}
+
+	private void refreshWidgets(Context context) {
 		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
         appWidgetManager.notifyAppWidgetViewDataChanged(ids, R.id.stack_view);
 	}
+	
+	private void createWidget(Context context, int appWidgetId) {
+		updateRemoteView(context, AppWidgetManager.getInstance(context), appWidgetId);
+		
+		triggerRefreshRecentTv(context);
+	}
 
-	public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+	private void handlePlayClick(Context context, String filePath) {
+		Toast.makeText(context, "Sent to XBMC", Toast.LENGTH_SHORT).show();
+		
+		Intent playIntent = new Intent(context, XbmcService.class);
+		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
+		playIntent.putExtra(XbmcService.EXTRA_ITEM, filePath);
+		
+		context.startService(playIntent);	
+	}
+	
+	private void triggerRefreshRecentTv(Context context) {
+		Intent refreshEpisodesIntent = new Intent(context, RefreshRecentTvIntentService.class);
+		context.startService(refreshEpisodesIntent);
+	}
+
+	private void updateRemoteView(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 		Intent intent = new Intent(context, RecentTvRemoteViewsService.class);
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -40,31 +79,5 @@ public class RecentTvWidgetHelperHC implements IRecentTvWidgetHelper {
 		rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
 
 		appWidgetManager.updateAppWidget(appWidgetId, rv);
-	}
-
-	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction().equals(XbmcService.PLAY_EPISODE_ACTION)) {
-            createPlayIntent(context, intent);
-        }
-        else if(refreshTimer.isTickIntent(intent)) {
-            onWidgetUpdate(context);
-        }
-	}
-
-	private void createPlayIntent(Context context, Intent intent) {
-		String filePath = intent.getStringExtra(XbmcService.EXTRA_ITEM);
-		Toast.makeText(context, "Sent to XBMC", Toast.LENGTH_SHORT).show();
-		Intent playIntent = new Intent(context, XbmcService.class);
-		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
-		playIntent.putExtra(XbmcService.EXTRA_ITEM, filePath);
-		context.startService(playIntent);
-	}
-	
-	public void onEnabled(Context context) {
-		refreshTimer.enable(context); 
-	}
-
-	public void onDisabled(Context context) {
-		refreshTimer.disable(context);
 	}
 }
