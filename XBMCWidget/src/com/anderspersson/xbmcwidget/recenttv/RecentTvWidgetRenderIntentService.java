@@ -158,7 +158,6 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	private void setupNavigationButton(RemoteViews remoteViews, int viewId, int toIndex, Boolean enabled) {
 		
 		if(enabled == false) {
-			
 			remoteViews.setBoolean(viewId, "setEnabled", false);
 			return;
 		}

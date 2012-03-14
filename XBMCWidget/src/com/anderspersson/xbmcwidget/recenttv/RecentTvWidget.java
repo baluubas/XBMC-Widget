@@ -5,6 +5,7 @@ import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -33,11 +34,17 @@ public class RecentTvWidget extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-		if(intent.getAction() == null || intent.getAction() != PreferenceChangedListener.PREFERENCE_CHANGED) {
+		if(intent.getAction() == null || intent.getAction().equals(PreferenceChangedListener.PREFERENCE_CHANGED) == false) {
 			return;
 		}
-		WakefulIntentService.cancelAlarms(context);
-		WakefulIntentService.scheduleAlarms(new RefreshRecentTvListener(), context);
+		
+		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), RecentTvWidget.class.getName() );
+		int[] ids = AppWidgetManager.getInstance(context).getAppWidgetIds(thisAppWidget);		
+		
+		if(ids.length > 0) {
+			WakefulIntentService.cancelAlarms(context);
+			WakefulIntentService.scheduleAlarms(new RefreshRecentTvListener(), context);
+		}
 	}
 
 	@Override

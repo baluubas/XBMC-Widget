@@ -12,13 +12,24 @@ import android.preference.PreferenceManager;
 
 public class ApplicationPreferenceActivity extends PreferenceActivity {
 	
+	private RecentTvRefreshPrefUpdater recentTvRefreshPrefUpdater;
+	private PreferenceChangedListener preferenceChangedListener;
+	private OnPreferenceChangeListener updateUsernameSummary = new OnPreferenceChangeListener() {
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			final EditTextPreference pref = (EditTextPreference)findPreference("username_preference");
+			pref.setSummary((String)newValue);
+			return true;
+		}};
+
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.settings_pre_v11);
 		setUsername();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(new PreferenceChangedListener(this));
+		preferenceChangedListener = new PreferenceChangedListener(this);
+		prefs.registerOnSharedPreferenceChangeListener(preferenceChangedListener);
 	}
 
 	@Override
@@ -30,16 +41,11 @@ public class ApplicationPreferenceActivity extends PreferenceActivity {
 	private void setUsername() {
 		final EditTextPreference pref = (EditTextPreference)findPreference("username_preference");
 		pref.setSummary(pref.getText());
-		pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				final EditTextPreference pref = (EditTextPreference)findPreference("username_preference");
-				pref.setSummary((String)newValue);
-				return true;
-			}});
+		pref.setOnPreferenceChangeListener(updateUsernameSummary);
 	}
 
 	private void setLastRefreshed() {
 		final EditTextPreference pref = (EditTextPreference)findPreference("recenttv_last_refresh");
-		new RecentTvRefreshPrefUpdater(pref);
+		recentTvRefreshPrefUpdater = new RecentTvRefreshPrefUpdater(pref);
 	}
 }

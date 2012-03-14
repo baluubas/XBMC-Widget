@@ -16,6 +16,10 @@ public class PreferenceChangedListener implements OnSharedPreferenceChangeListen
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		
+		if(key.equals("recenttv_last_refresh") || key.equals("lastAlarm")) // is changed by the application
+			return;
+		
 		Intent i = new Intent();
 		i.setAction(PREFERENCE_CHANGED);
 		context.sendBroadcast(i);
