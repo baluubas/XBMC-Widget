@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 
 public class ApplicationPreferenceActivity extends PreferenceActivity {
 	
+	@SuppressWarnings("unused")
 	private RecentTvRefreshPrefUpdater recentTvRefreshPrefUpdater;
 	private PreferenceChangedListener preferenceChangedListener;
 	private OnPreferenceChangeListener updateUsernameSummary = new OnPreferenceChangeListener() {

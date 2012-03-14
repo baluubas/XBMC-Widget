@@ -11,11 +11,17 @@ import android.preference.PreferenceManager;
 
 public class ApplicationPreferenceActivityHC extends PreferenceActivity {
 	
+	private PreferenceChangedListener preferenceChangedListener;
+
+	public ApplicationPreferenceActivityHC() {
+		preferenceChangedListener = new PreferenceChangedListener(this);
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(new PreferenceChangedListener(this));
+		prefs.registerOnSharedPreferenceChangeListener(preferenceChangedListener);
 	}
 	
 	@Override

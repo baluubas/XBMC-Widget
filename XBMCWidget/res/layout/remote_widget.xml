@@ -67,7 +67,8 @@
 			android:layout_centerInParent="true"
 		 	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/select" />
+	    	android:src="@drawable/select" 
+	    	android:background="@drawable/remote_button_selector" />
 	    
 	    <Button
 	        android:id="@+id/left"
@@ -115,7 +116,8 @@
 	        android:layout_above="@+id/select"
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true" />
+	        android:layout_alignParentTop="true"
+			android:background="@drawable/remote_button_selector"  />
     	 
     	 <ImageView
 	        android:id="@+id/up2"
@@ -134,7 +136,8 @@
     	     android:layout_alignParentBottom="true"
     	     android:layout_alignParentLeft="true"
     	     android:layout_alignParentRight="true"
-    	     android:layout_below="@+id/select" />
+    	     android:layout_below="@+id/select"
+    	     android:background="@drawable/remote_button_selector"  />
     	<ImageView
     	     android:id="@+id/down2"
     	     android:layout_marginTop="35dp"
