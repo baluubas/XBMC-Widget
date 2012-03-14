@@ -134,6 +134,7 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	private void setupClick(TvShowEpisode episode, RemoteViews rv) {
 		Intent playIntent = new Intent(this, RecentTvWidgetRenderIntentService.class);
 		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
+		playIntent.putExtra(XbmcService.EXTRA_ITEM, episode.getFile());
 		PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.play_recenttv_button, toastPendingIntent);
 	}

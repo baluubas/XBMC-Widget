@@ -33,11 +33,8 @@ abstract public class WakefulIntentService extends IntentService {
 		if (lockStatic==null) {
 
 			PowerManager mgr=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
-
-			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-					NAME);
+			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, NAME);
 			lockStatic.setReferenceCounted(true);
-
 		}
 
 		return(lockStatic);
@@ -52,14 +49,11 @@ abstract public class WakefulIntentService extends IntentService {
 		sendWakefulWork(ctxt, new Intent(ctxt, clsService));
 	}
 
-	public static void scheduleAlarms(AlarmListener listener,
-			Context ctxt) {
+	public static void scheduleAlarms(AlarmListener listener, Context ctxt) {
 		scheduleAlarms(listener, ctxt, true);
 	}
 
-	public static void scheduleAlarms(AlarmListener listener,
-			Context ctxt,
-			boolean force) {
+	public static void scheduleAlarms(AlarmListener listener, Context ctxt, boolean force) {
 
 		SharedPreferences prefs=ctxt.getSharedPreferences(NAME, 0);
 		long lastAlarm=prefs.getLong(LAST_ALARM, 0);
