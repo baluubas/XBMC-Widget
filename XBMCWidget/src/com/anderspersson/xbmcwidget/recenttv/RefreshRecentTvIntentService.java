@@ -6,8 +6,8 @@ import java.util.List;
 import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.xbmc.GetRecentEpisodesCommand;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
+import com.commonsware.cwac.wakeful.WakefulIntentService;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,14 +16,14 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class RefreshRecentTvIntentService extends IntentService {
+public class RefreshRecentTvIntentService extends WakefulIntentService {
 	 
     public RefreshRecentTvIntentService() {
-        super("RecentTvIntentService");
+        super("RefreshRecentTvIntentService");
     }	    
     
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void doWakefulWork(Intent intent) {
 		refreshShows();
     }
 
@@ -66,6 +66,7 @@ public class RefreshRecentTvIntentService extends IntentService {
 
 	private boolean isConnectedToWifi() {
 		
+		try {
 		if(android.os.Debug.isDebuggerConnected()) {
 			return true;
 		}
@@ -73,5 +74,12 @@ public class RefreshRecentTvIntentService extends IntentService {
 		ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		return wifi != null && wifi.isAvailable() && wifi.isConnected();
+		}
+		catch(Exception ex) {
+			Log.w(
+				RefreshRecentTvIntentService.class.getSimpleName(), 
+				"Unable to determine WIIF state - epsiodes cannot be refreshed.");
+			return false;
+		}
 	}
 }

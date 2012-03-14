@@ -6,8 +6,7 @@ public class TimeAgo {
 	public static String toFriendlyString(long time) {
 		long now = new Date().getTime();
 		
-		long diffMinutes = (now - time) / (1000 * 60);
-		
+		long diffMinutes = (now - time) / (1000 * 60);		
 		
 		if(diffMinutes <= 1) {
 			return "just now";

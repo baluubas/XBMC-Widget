@@ -1,0 +1,1 @@
+<WakefulIntentService listener="com.anderspersson.xbmcwidget.recenttv.RefreshRecentTvListener" />

@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.xbmc.GetRecentEpisodesCommand;
+import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
@@ -100,15 +98,7 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
     }
 
     public void onDataSetChanged() {
-    	GetRecentEpisodesCommand command = 
-    			new GetRecentEpisodesCommand(PreferenceManager.getDefaultSharedPreferences(mContext));
-    	try {
-    		downloadedEpisodes = command.execute();	
-    		hadErrorsOnLastUpdate = false;
-		} catch (Exception ex) {
-			hadErrorsOnLastUpdate = true;
-			Log.v(RecentTvRemoteViewsFactory.class.toString(), "Failed to download episodes", ex);
-			return;
-		}
+    	XbmcWidgetApplication app = (XbmcWidgetApplication)mContext.getApplicationContext();
+    	downloadedEpisodes = app.getLastDownloadedEpisodes();
     }
 }

@@ -3,6 +3,8 @@
                 
     <ListPreference
     	android:key="recenttv_refresh_interval_preference"
+    	android:entries="@array/refresh_intervals"
+        android:entryValues="@array/refresh_interval_values"
 		android:title="@string/lbl_refresh_interval"
         android:summary="@string/lbl_refresh_interval_summary" />
         

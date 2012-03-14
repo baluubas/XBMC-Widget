@@ -42,14 +42,14 @@
 		<intent 
 		    android:action="android.intent.action.MAIN" 
 		    android:targetPackage="com.anderspersson.xbmcwidget" 
-		    android:targetClass="com.anderspersson.xbmcwidget.TroubleshootingPreferenceActivity" /> 
+		    android:targetClass="com.anderspersson.xbmcwidget.configuration.TroubleshootingPreferenceActivity" /> 
 	</PreferenceScreen>       
 	
 	<PreferenceScreen android:title="@string/lbl_about"> 
 		<intent 
 		    android:action="android.intent.action.MAIN" 
 		    android:targetPackage="com.anderspersson.xbmcwidget" 
-		    android:targetClass="com.anderspersson.xbmcwidget.AboutPreferenceActivity" /> 
+		    android:targetClass="com.anderspersson.xbmcwidget.configuration.AboutPreferenceActivity" /> 
 	</PreferenceScreen>  
 
 </PreferenceScreen>

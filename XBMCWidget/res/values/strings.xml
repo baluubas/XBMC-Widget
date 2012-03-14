@@ -26,6 +26,14 @@
     		Thanks to P.J Onari for making his icons available to the public - 
     		<a href="http://somerandomdude.com/work/iconic/">somerandomdude.com</a>
     	</p>
+    	
+    	<p>
+    		This software also uses:<br />
+    		CommonsWare Android Components: WakefulIntentService<br />
+    		Copyright (c) 2009-11 CommonsWare, LLC<br />
+    		Licensed under the Apache Software License 2.0<br />
+    		<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>
+    	</p>
     ]]>
     </string>
     <string name="lbl_troubleshoot">Troubleshooting</string>

@@ -67,8 +67,7 @@
 			android:layout_centerInParent="true"
 		 	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/select"
-	        android:background="@drawable/clicked" />
+	    	android:src="@drawable/select" />
 	    
 	    <Button
 	        android:id="@+id/left"
@@ -78,7 +77,7 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignTop="@+id/select"
 	        android:layout_toLeftOf="@+id/select" 
-	        android:background="@drawable/clicked" />
+	        android:background="@drawable/remote_button_selector" />
 	    <ImageView
 	        android:id="@+id/left2"
 	        android:layout_marginRight="35dp"
@@ -98,7 +97,7 @@
 	        android:layout_alignParentRight="true"
 	        android:layout_alignTop="@+id/select"
 	        android:layout_toRightOf="@+id/select"
-	        android:background="@drawable/clicked"  />
+	        android:background="@drawable/remote_button_selector"  />
 		<ImageView
 	        android:id="@+id/right2"
 	        android:layout_marginLeft="35dp"
@@ -116,8 +115,8 @@
 	        android:layout_above="@+id/select"
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:background="@drawable/clicked" />
+	        android:layout_alignParentTop="true" />
+    	 
     	 <ImageView
 	        android:id="@+id/up2"
 	        android:layout_marginBottom="35dp"
@@ -135,8 +134,7 @@
     	     android:layout_alignParentBottom="true"
     	     android:layout_alignParentLeft="true"
     	     android:layout_alignParentRight="true"
-    	     android:layout_below="@+id/select"
-    	     android:background="@drawable/clicked" />
+    	     android:layout_below="@+id/select" />
     	<ImageView
     	     android:id="@+id/down2"
     	     android:layout_marginTop="35dp"
@@ -145,7 +143,6 @@
     	     android:layout_below="@+id/select"
     		 android:layout_centerInParent="true"
     	     android:src="@drawable/arrowdown"
-    	     android:background="@drawable/clicked"
     	     />
 	    		
 	</RelativeLayout>

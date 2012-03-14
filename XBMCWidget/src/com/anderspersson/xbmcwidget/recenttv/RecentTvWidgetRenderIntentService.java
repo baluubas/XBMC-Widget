@@ -8,6 +8,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -15,13 +16,22 @@ import com.anderspersson.xbmcwidget.R;
 import com.anderspersson.xbmcwidget.common.BitmapCache;
 import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
+import com.anderspersson.xbmcwidget.xbmc.XbmcService;
+
 
 public class RecentTvWidgetRenderIntentService extends IntentService {
 	
 	private static final String NAVIGATE = "com.anderspersson.xbmcwidget.recenttv.NAVIGATE";
+	private Handler handler;
 	
 	public RecentTvWidgetRenderIntentService() {
 		super("RecentTvWidgetRenderIntentService");
+	}
+	
+	@Override 
+	public void onCreate() {
+		super.onCreate();
+		handler = new Handler();
 	}
 	
    @Override
@@ -46,11 +56,15 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		   moveTo(intent.getIntExtra("toIndex", -1));
 		   return;
 	   }
+	   
+	   if(action.equals(XbmcService.PLAY_EPISODE_ACTION)) {
+	        handlePlayClick(intent.getStringExtra(XbmcService.EXTRA_ITEM));
+		   return;
+	   }
    }
 
 	private void createAppWidget(int widgetId) {
 		createAndUpdateView(-1, -1, null);	
-	    triggerRecentTvRefresh();
 	}
 	
 	private void updateShows() {
@@ -77,10 +91,14 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		createAndUpdateView(toIndex, episodes.size()-1, episodes.get(toIndex));
 	}
 	
-	private void triggerRecentTvRefresh() {
-		Intent intent = new Intent(this, RefreshRecentTvIntentService.class);
-		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-        startService(intent);
+	private void handlePlayClick(String filePath) {
+		handler.post(new SentToXBMCToast(this));
+		
+		Intent playIntent = new Intent(this, XbmcService.class);
+		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
+		playIntent.putExtra(XbmcService.EXTRA_ITEM, filePath);
+		
+		startService(playIntent);	
 	}
 	
 	private void createAndUpdateView(int episodeIndex, int maxIndex, TvShowEpisode episode) {
@@ -109,7 +127,15 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge());
 		rv.setViewVisibility(R.id.new_icon, episode.hasBeenSeen() ?  View.INVISIBLE : View.VISIBLE);
 		
+        setupClick(episode, rv);
 		setupFanArt(rv, episode);
+	}
+
+	private void setupClick(TvShowEpisode episode, RemoteViews rv) {
+		Intent playIntent = new Intent(this, RecentTvWidgetRenderIntentService.class);
+		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
+		PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setOnClickPendingIntent(R.id.play_recenttv_button, toastPendingIntent);
 	}
 	
 	private void setupFanArt(RemoteViews rv, TvShowEpisode episode) {
@@ -133,7 +159,7 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		
 		if(enabled == false) {
 			
-			remoteViews.setViewVisibility(viewId, View.INVISIBLE);
+			remoteViews.setBoolean(viewId, "setEnabled", false);
 			return;
 		}
 		
@@ -145,7 +171,7 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		navigateIntent.setData(Uri.parse(navigateIntent.toUri(Intent.URI_INTENT_SCHEME))); 
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, navigateIntent, 0);
         
-        remoteViews.setViewVisibility(viewId, View.VISIBLE);
+        remoteViews.setBoolean(viewId, "setEnabled", true);
         remoteViews.setOnClickPendingIntent(viewId, pendingIntent);
 	}
 	
