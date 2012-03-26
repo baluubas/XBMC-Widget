@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 
 abstract public class WakefulIntentService extends IntentService {
@@ -28,10 +29,27 @@ abstract public class WakefulIntentService extends IntentService {
 	static final String NAME="com.commonsware.cwac.wakeful.WakefulIntentService";
 	static final String LAST_ALARM="lastAlarm";
 	private static volatile PowerManager.WakeLock lockStatic=null;
+	private static WifiManager.WifiLock lockWifi = null;
+	
+	public static void acquireStaticLock(Context context) {
+		if (!getCpuLock(context).isHeld()) {
+			getCpuLock(context).acquire();
+		}
 
-	synchronized private static PowerManager.WakeLock getLock(Context context) {
+		WifiManager.WifiLock lock = getWifiLock(context);
+		try {
+			if (!lock.isHeld()) {
+				lock.acquire();
+			}
+		}
+		catch (UnsupportedOperationException ex) {
+			// too many wifi locks, couldn't acquire one
+			// swallow it. oh well, no wifi lock this time.
+		}
+	}
+	
+	synchronized private static PowerManager.WakeLock getCpuLock(Context context) {
 		if (lockStatic==null) {
-
 			PowerManager mgr=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
 			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, NAME);
 			lockStatic.setReferenceCounted(true);
@@ -39,9 +57,21 @@ abstract public class WakefulIntentService extends IntentService {
 
 		return(lockStatic);
 	}
+	
+	synchronized protected static WifiManager.WifiLock getWifiLock(Context context) {
+		if (lockWifi == null) {
+			WifiManager mgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+			// wake up the WiFi
+			lockWifi = mgr.createWifiLock(NAME);
+			lockWifi.setReferenceCounted(true);
+		}
+
+		return lockWifi;
+	}
 
 	public static void sendWakefulWork(Context ctxt, Intent i) {
-		getLock(ctxt.getApplicationContext()).acquire();
+		acquireStaticLock(ctxt.getApplicationContext());
 		ctxt.startService(i);
 	}
 
@@ -85,8 +115,8 @@ abstract public class WakefulIntentService extends IntentService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if ((flags & START_FLAG_REDELIVERY)!=0 || (flags & START_FLAG_RETRY) != 0) { // if crash restart or ...
-			getLock(this.getApplicationContext()).acquire();  // ...then quick grab the lock
+		if ((flags & START_FLAG_REDELIVERY)!=0) { // if crash restart or ...
+			acquireStaticLock(this.getApplicationContext());  // ...then quick grab the lock
 		}
 
 		super.onStartCommand(intent, flags, startId);
@@ -100,8 +130,24 @@ abstract public class WakefulIntentService extends IntentService {
 			doWakefulWork(intent);
 		}
 		finally {
-			getLock(this.getApplicationContext()).release();
+			releaseStaticLock();
 		}
+	}
+	
+	@Override
+	public void onDestroy() {
+		releaseStaticLock();
+		super.onDestroy();
+	}
+
+	private void releaseStaticLock() {
+		if (getCpuLock(this).isHeld()) {
+			getCpuLock(this).release();
+		}
+		if (getWifiLock(this).isHeld()) {
+			getWifiLock(this).release();
+		}
+		
 	}
 
 	public interface AlarmListener {

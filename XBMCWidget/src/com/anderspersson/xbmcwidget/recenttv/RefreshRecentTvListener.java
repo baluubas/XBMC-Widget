@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
 import com.commonsware.cwac.wakeful.*;
@@ -16,9 +15,9 @@ public class RefreshRecentTvListener implements WakefulIntentService.AlarmListen
 	public void scheduleAlarms(AlarmManager mgr, PendingIntent pi, Context ctxt) {
 		
 		interval = getInterval(ctxt);	
-		mgr.setRepeating(
+		mgr.setInexactRepeating(
 				AlarmManager.RTC_WAKEUP,
-				SystemClock.elapsedRealtime(),
+				System.currentTimeMillis(),
 				interval, 
 				pi);
 	}
