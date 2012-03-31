@@ -44,5 +44,6 @@
   		<p>4. Can you connect using other apps like the official XBMC remote?</p>
     ]]>
     </string>
+    <string name="message_update_failed">Major bummer! Couldn\'t get any shows or there are none. Click to try again.</string>
     	
 </resources>

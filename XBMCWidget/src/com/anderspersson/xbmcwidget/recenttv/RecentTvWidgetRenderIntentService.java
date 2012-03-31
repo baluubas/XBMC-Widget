@@ -24,6 +24,8 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	enum REFRESH_STATE { UNCHANGED, OK, FAILURE };
 	
 	private static final String NAVIGATE = "com.anderspersson.xbmcwidget.recenttv.NAVIGATE";
+	public static final String RETRY = "com.anderspersson.xbmcwidget.recenttv.RETRY";
+
 	private Handler handler;
 	
 	public RecentTvWidgetRenderIntentService() {
@@ -57,6 +59,12 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	   
 	   if(action.equals(FanArtDownloaderIntentService.FANART_DOWNLOADED)) {
 		   refreshCurrent();
+		   return;
+	   }
+	   
+	   if(action.equals(RETRY)) {
+		   retry();
+		   return;
 	   }
 	   
 	   if(action.equals(NAVIGATE)) {
@@ -70,20 +78,40 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	   }
    }
 
+	private void retry() {
+		createLoadingView();
+		startRefreshService();
+	}
+   
+	private void startRefreshService() {
+		Intent fanArtDownloadIntent = new Intent(this, RefreshRecentTvIntentService.class);
+		startService(fanArtDownloadIntent);
+	}
+	
+	private void createLoadingView() {
+		AppWidgetManager appWidgetManager = getWidgetManager();
+		int[] widgetIds = getWidgetIds();
+		
+		for(int i = 0; i < widgetIds.length; i++) {
+			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_loading);
+			ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );	
+		    appWidgetManager.updateAppWidget( recentTvWidget, rv );
+		}
+	}
+	
 	private void createAppWidget() {
 		// In the case that we 
 		if(getEpisodes().size() > 0) {
 			refreshCurrent();
 			return;
-		}
-		
-		createAndUpdateView(-1, -1, null, REFRESH_STATE.OK);	
+		}	
 	}
-	
+
 	private void updateShows(REFRESH_STATE state) {
 		List<TvShowEpisode> episodes = getEpisodes();
 		
 		if(episodes.size() == 0) {
+			createFailedView();
 			return;
 		}
 		
@@ -116,15 +144,24 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	
 	private void createAndUpdateView(int episodeIndex, int maxIndex, TvShowEpisode episode, REFRESH_STATE state) {
 		RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget );
-		ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );
 	    
 		if(episode != null) {
 			setupViewData(episodeIndex, maxIndex, episode, rv, state);
 			setCurrentEpisodeIndex(episodeIndex);
 		}
 		
-		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-	    appWidgetManager.updateAppWidget( recentTvWidget, rv );
+	    getWidgetManager().updateAppWidget( getComponentName(), rv );
+	}
+	
+	private void createFailedView() {
+		RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_failed);
+		
+		Intent retryIntent = new Intent(this, RecentTvWidgetRenderIntentService.class);
+		retryIntent.setAction(RETRY);
+		PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, retryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setOnClickPendingIntent(R.id.retry_button, toastPendingIntent);
+		
+        getWidgetManager().updateAppWidget( getComponentName(), rv );
 	}
 
 	private void setupViewData(int episodeIndex, int maxIndex, TvShowEpisode episode, RemoteViews rv, REFRESH_STATE state) {
@@ -208,6 +245,14 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		getWidgetApplication().setCurrentEpisodeIndex(episodeIndex);
 	}
 	
+	private int[] getWidgetIds() {
+        return getWidgetManager().getAppWidgetIds(getComponentName());
+	}
+	
+	private ComponentName getComponentName() {
+		return new ComponentName(getPackageName(), RecentTvWidget.class.getName() );
+	}
+	
 	private BitmapCache getBitmapCache() {
 		XbmcWidgetApplication app = getWidgetApplication();
 		return app.getBitmapCache();
@@ -216,6 +261,10 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	private List<TvShowEpisode> getEpisodes() {
 		XbmcWidgetApplication app = getWidgetApplication();
 		return app.getLastDownloadedEpisodes();
+	}
+	
+	private AppWidgetManager getWidgetManager() {
+        return AppWidgetManager.getInstance(this);
 	}
 
 	private XbmcWidgetApplication getWidgetApplication() {

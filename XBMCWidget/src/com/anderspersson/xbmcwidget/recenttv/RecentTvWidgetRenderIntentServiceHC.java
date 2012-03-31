@@ -1,5 +1,7 @@
 package com.anderspersson.xbmcwidget.recenttv;
 
+import java.util.List;
+
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -10,9 +12,14 @@ import android.os.Handler;
 import android.widget.RemoteViews;
 
 import com.anderspersson.xbmcwidget.R;
+import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
+import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
 public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
+	
+	private static final String RETRY = "com.anderspersson.xbmcwidget.recenttv.RETRY";
+ 
 	private Handler handler;
 
 	public RecentTvWidgetRenderIntentServiceHC() {
@@ -35,18 +42,63 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		else if(action.equals(RecentTvRefreshedIntent.REFRESHED)) {
 			refreshWidgets();
 		}
+		else if(action.equals(RecentTvRefreshedIntent.REFRESH_FAILED)) {
+			refreshFailed();
+		}
 		else if(action.equals(XbmcService.PLAY_EPISODE_ACTION)) {
             handlePlayClick(intent.getStringExtra(XbmcService.EXTRA_ITEM));
         }
+		else if(action.equals(RETRY)) {
+            retry();
+        }
 	}
 
-	private void refreshWidgets() {
-		ComponentName thisAppWidget = new ComponentName(getPackageName(), RecentTvWidget.class.getName() );
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
-        appWidgetManager.notifyAppWidgetViewDataChanged(ids, R.id.stack_view);
+	private void retry() {
+		createLoadingView();
+		startRefreshService();
+	}
+
+	private void startRefreshService() {
+		Intent fanArtDownloadIntent = new Intent(this, RefreshRecentTvIntentService.class);
+		startService(fanArtDownloadIntent);
+	}
+
+	private void refreshFailed() {
+		
+		if(hasEpisodes()) 
+			return;
+		
+		createFailedView();
 	}
 	
+	private void refreshWidgets() {
+		
+		if(hasEpisodes() == false) 
+		{
+			createFailedView();
+			return;
+		}
+		
+		int ids[] = getWidgetIds();
+		getWidgetManager().notifyAppWidgetViewDataChanged(ids, R.id.stack_view);
+	}
+
+	private boolean hasEpisodes() {
+		return getEpisodes().size() > 0;
+	}
+	
+	private int[] getWidgetIds() {
+        return getWidgetManager().getAppWidgetIds(getComponentName());
+	}
+	
+	private AppWidgetManager getWidgetManager() {
+        return AppWidgetManager.getInstance(this);
+	}
+	
+	private ComponentName getComponentName() {
+		return new ComponentName(getPackageName(), RecentTvWidget.class.getName() );
+	}
+
 	private void createWidget(int appWidgetId) {
 		updateRemoteView(AppWidgetManager.getInstance(this), appWidgetId);
 	}
@@ -68,7 +120,6 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		
 		RemoteViews rv = new RemoteViews(this.getPackageName(), R.layout.recent_tv_widget);
 		rv.setRemoteAdapter(appWidgetId, R.id.stack_view, intent);
-		rv.setEmptyView(R.id.stack_view, R.id.empty_view);
 
 		Intent playIntent = new Intent(this, RecentTvWidgetRenderIntentServiceHC.class);
 		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
@@ -78,5 +129,42 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
 
 		appWidgetManager.updateAppWidget(appWidgetId, rv);
+	}
+	
+	private void createFailedView() {
+		AppWidgetManager appWidgetManager = getWidgetManager();
+		int[] widgetIds = getWidgetIds();
+		
+		for(int i = 0; i < widgetIds.length; i++) {
+			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_failed);
+			ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );
+			
+			Intent retryIntent = new Intent(this, RecentTvWidgetRenderIntentServiceHC.class);
+			retryIntent.setAction(RETRY);
+			PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, retryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	        rv.setOnClickPendingIntent(R.id.retry_button, toastPendingIntent);
+			
+		    appWidgetManager.updateAppWidget( recentTvWidget, rv );
+		}
+	}
+	
+	private void createLoadingView() {
+		AppWidgetManager appWidgetManager = getWidgetManager();
+		int[] widgetIds = getWidgetIds();
+		
+		for(int i = 0; i < widgetIds.length; i++) {
+			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_loading);
+			ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );	
+		    appWidgetManager.updateAppWidget( recentTvWidget, rv );
+		}
+	}
+	
+	private List<TvShowEpisode> getEpisodes() {
+		XbmcWidgetApplication app = getWidgetApplication();
+		return app.getLastDownloadedEpisodes();
+	}
+	
+	private XbmcWidgetApplication getWidgetApplication() {
+		return (XbmcWidgetApplication)getApplicationContext();
 	}
 }

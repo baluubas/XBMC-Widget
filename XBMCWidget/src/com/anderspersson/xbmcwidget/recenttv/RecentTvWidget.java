@@ -67,6 +67,6 @@ public class RecentTvWidget extends AppWidgetProvider {
 		int honeycombVersion = 11;
 		return Build.VERSION.SDK_INT < honeycombVersion 
 				? RecentTvWidgetRenderIntentService.class
-						: RecentTvWidgetRenderIntentServiceHC.class; 
+				: RecentTvWidgetRenderIntentServiceHC.class; 
 	}
 }

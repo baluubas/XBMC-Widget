@@ -59,7 +59,6 @@ public final class R {
         public static final int default_header=0x7f0a0003;
         public static final int down=0x7f0a0018;
         public static final int down2=0x7f0a0019;
-        public static final int empty_view=0x7f0a000d;
         public static final int fanArt=0x7f0a0002;
         public static final int home=0x7f0a000e;
         public static final int item_header=0x7f0a0005;
@@ -72,6 +71,7 @@ public final class R {
         public static final int playpause=0x7f0a001b;
         public static final int prev_show=0x7f0a0009;
         public static final int recent_tv_item=0x7f0a0001;
+        public static final int retry_button=0x7f0a000d;
         public static final int right=0x7f0a0014;
         public static final int right2=0x7f0a0015;
         public static final int select=0x7f0a0011;
@@ -89,11 +89,13 @@ public final class R {
         public static final int preference_headers_hc=0x7f030002;
         public static final int recent_tv_item=0x7f030003;
         public static final int recent_tv_widget=0x7f030004;
-        public static final int recenttv=0x7f030005;
-        public static final int recenttv_setting=0x7f030006;
-        public static final int remote_widget=0x7f030007;
-        public static final int settings_pre_v11=0x7f030008;
-        public static final int troubleshooting=0x7f030009;
+        public static final int recent_tv_widget_failed=0x7f030005;
+        public static final int recent_tv_widget_loading=0x7f030006;
+        public static final int recenttv=0x7f030007;
+        public static final int recenttv_setting=0x7f030008;
+        public static final int remote_widget=0x7f030009;
+        public static final int settings_pre_v11=0x7f03000a;
+        public static final int troubleshooting=0x7f03000b;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
@@ -115,6 +117,7 @@ public final class R {
         public static final int lbl_username=0x7f080006;
         public static final int message_about=0x7f080010;
         public static final int message_troubleshooting=0x7f080012;
+        public static final int message_update_failed=0x7f080013;
     }
     public static final class style {
         public static final int RecentTvButton=0x7f090001;
