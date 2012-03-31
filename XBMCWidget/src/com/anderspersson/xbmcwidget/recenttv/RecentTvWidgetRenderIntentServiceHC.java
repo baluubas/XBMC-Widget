@@ -80,6 +80,10 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		}
 		
 		int ids[] = getWidgetIds();
+		
+		for(int i = 0; i < ids.length; i++)
+			updateRemoteView(getWidgetManager(), ids[i]);
+	
 		getWidgetManager().notifyAppWidgetViewDataChanged(ids, R.id.stack_view);
 	}
 
@@ -100,7 +104,10 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 	}
 
 	private void createWidget(int appWidgetId) {
-		updateRemoteView(AppWidgetManager.getInstance(this), appWidgetId);
+		if(hasEpisodes()) {
+			updateRemoteView(getWidgetManager(), appWidgetId);
+			return;
+		}	
 	}
 
 	private void handlePlayClick(String filePath) {
