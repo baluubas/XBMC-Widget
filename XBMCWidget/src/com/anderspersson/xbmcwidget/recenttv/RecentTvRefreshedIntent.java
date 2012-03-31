@@ -7,10 +7,11 @@ import android.os.Build;
 public class RecentTvRefreshedIntent extends Intent {
 	
 	public static final String REFRESHED =  "com.anderspersson.xbmcwidget.recenttv.RECENT_TV_REFRESHED";
+	public static final String REFRESH_FAILED =  "com.anderspersson.xbmcwidget.recenttv.RECENT_TV_REFRESH_FAILED";
 	
-	public RecentTvRefreshedIntent(Context context) {
+	public RecentTvRefreshedIntent(Context context, Boolean isSuccess) {
 		super(context, getWidgetClass());
-		setAction(REFRESHED);
+		setAction(isSuccess ? REFRESHED : REFRESH_FAILED);
 	}
 
 	private static Class<?> getWidgetClass() {

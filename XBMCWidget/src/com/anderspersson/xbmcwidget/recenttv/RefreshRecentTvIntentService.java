@@ -29,12 +29,16 @@ public class RefreshRecentTvIntentService extends WakefulIntentService {
 
 	private void refreshShows() {
 		if(isConnectedToWifi() == false) {
+			startService(new RecentTvRefreshedIntent(this, false));
 			return;
 		}
 		
 		List<TvShowEpisode> episodes = getEpisodes();
 
-		if(episodes == null) return;
+		if(episodes == null) {
+			startService(new RecentTvRefreshedIntent(this, false));
+			return;
+		}
 		
 		XbmcWidgetApplication app = (XbmcWidgetApplication)getApplication();
 		
@@ -42,7 +46,7 @@ public class RefreshRecentTvIntentService extends WakefulIntentService {
 		setLastUpdateTime();
 		
 		
-		startService(new RecentTvRefreshedIntent(this));
+		startService(new RecentTvRefreshedIntent(this, true));
 	}
 
 	private void setLastUpdateTime() {
@@ -59,7 +63,7 @@ public class RefreshRecentTvIntentService extends WakefulIntentService {
 		try {
 			return getEpisodesCmd.execute();
 		} catch (Exception ex) {
-			Log.v(RefreshRecentTvIntentService.class.toString(), "Failed to download episodes", ex);
+			Log.v("RefreshRecentTvIn..", "Failed to download episodes", ex);
 			return null;
 		}
 	}
@@ -78,7 +82,7 @@ public class RefreshRecentTvIntentService extends WakefulIntentService {
 		catch(Exception ex) {
 			Log.w(
 				RefreshRecentTvIntentService.class.getSimpleName(), 
-				"Unable to determine WIIF state - epsiodes cannot be refreshed.");
+				"Unable to determine WIFI state - epsiodes cannot be refreshed.");
 			return false;
 		}
 	}

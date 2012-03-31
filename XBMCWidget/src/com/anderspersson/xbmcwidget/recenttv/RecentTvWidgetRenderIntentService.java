@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
@@ -18,8 +19,9 @@ import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
-
 public class RecentTvWidgetRenderIntentService extends IntentService {
+	
+	enum REFRESH_STATE { UNCHANGED, OK, FAILURE };
 	
 	private static final String NAVIGATE = "com.anderspersson.xbmcwidget.recenttv.NAVIGATE";
 	private Handler handler;
@@ -39,12 +41,17 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		String action = intent.getAction();
 	   
 	   if(action.equals(RecentTvWidget.RECENT_TV_UPDATE_WIDGET)) {
-		   createAppWidget(intent.getIntExtra("widgetId", 0));
+		   createAppWidget();
 		   return;
 	   }
 	   
 	   if(action.equals(RecentTvRefreshedIntent.REFRESHED)){
-		   updateShows();
+		   updateShows(REFRESH_STATE.OK);
+		   return;
+	   }
+	   
+	   if(action.equals(RecentTvRefreshedIntent.REFRESH_FAILED)){
+		   updateShows(REFRESH_STATE.FAILURE);
 		   return;
 	   }
 	   
@@ -63,18 +70,24 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	   }
    }
 
-	private void createAppWidget(int widgetId) {
-		createAndUpdateView(-1, -1, null);	
+	private void createAppWidget() {
+		// In the case that we 
+		if(getEpisodes().size() > 0) {
+			refreshCurrent();
+			return;
+		}
+		
+		createAndUpdateView(-1, -1, null, REFRESH_STATE.OK);	
 	}
 	
-	private void updateShows() {
+	private void updateShows(REFRESH_STATE state) {
 		List<TvShowEpisode> episodes = getEpisodes();
 		
 		if(episodes.size() == 0) {
 			return;
 		}
 		
-		createAndUpdateView(0, episodes.size(), episodes.get(0));
+		createAndUpdateView(0, episodes.size(), episodes.get(0), state);
 	}
 
 	private void refreshCurrent() {
@@ -88,7 +101,7 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 			return;
 		}
 		
-		createAndUpdateView(toIndex, episodes.size()-1, episodes.get(toIndex));
+		createAndUpdateView(toIndex, episodes.size()-1, episodes.get(toIndex), REFRESH_STATE.UNCHANGED);
 	}
 	
 	private void handlePlayClick(String filePath) {
@@ -101,12 +114,12 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 		startService(playIntent);	
 	}
 	
-	private void createAndUpdateView(int episodeIndex, int maxIndex, TvShowEpisode episode) {
+	private void createAndUpdateView(int episodeIndex, int maxIndex, TvShowEpisode episode, REFRESH_STATE state) {
 		RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget );
 		ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );
 	    
 		if(episode != null) {
-			setupViewData(episodeIndex, maxIndex, episode, rv);
+			setupViewData(episodeIndex, maxIndex, episode, rv, state);
 			setCurrentEpisodeIndex(episodeIndex);
 		}
 		
@@ -114,21 +127,37 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 	    appWidgetManager.updateAppWidget( recentTvWidget, rv );
 	}
 
-	private void setupViewData(int episodeIndex, int maxIndex, TvShowEpisode episode, RemoteViews rv) {
+	private void setupViewData(int episodeIndex, int maxIndex, TvShowEpisode episode, RemoteViews rv, REFRESH_STATE state) {
 		Boolean leftArrowEnabled = episodeIndex != 0;
 		Boolean rightArrowEnabled = episodeIndex != maxIndex;
 		
 		setupNavigationButton(rv, R.id.next_show, episodeIndex+1,  rightArrowEnabled);
 		setupNavigationButton(rv, R.id.prev_show, episodeIndex-1, leftArrowEnabled);
 		
+		rv.setViewVisibility(R.id.new_icon, episode.hasBeenSeen() ?  View.INVISIBLE : View.VISIBLE);
+		
+		setupBorderColor(rv, state);
+		setupTexts(episode, rv);
+        setupClick(episode, rv);
+		setupFanArt(rv, episode);
+	}
+
+	private void setupBorderColor(RemoteViews rv, REFRESH_STATE state) {
+		if(state == REFRESH_STATE.UNCHANGED)
+			return;
+					
+		int color = state == REFRESH_STATE.OK
+				? Color.parseColor("#A9A9A9") 
+				: Color.RED;;
+		
+		rv.setInt(R.id.fanArt, "setBackgroundColor", color);
+	}
+
+	private void setupTexts(TvShowEpisode episode, RemoteViews rv) {
 		rv.setTextViewText(R.id.default_header, episode.getTvShowTitle());
 		rv.setTextViewText(R.id.item_header, episode.getTvShowTitle());
 		rv.setTextViewText(R.id.item_subheader, episode.getFullEpisodeTitle());
 		rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge());
-		rv.setViewVisibility(R.id.new_icon, episode.hasBeenSeen() ?  View.INVISIBLE : View.VISIBLE);
-		
-        setupClick(episode, rv);
-		setupFanArt(rv, episode);
 	}
 
 	private void setupClick(TvShowEpisode episode, RemoteViews rv) {
@@ -191,5 +220,11 @@ public class RecentTvWidgetRenderIntentService extends IntentService {
 
 	private XbmcWidgetApplication getWidgetApplication() {
 		return (XbmcWidgetApplication)getApplicationContext();
+	}
+	
+	class FETCH_STATE {
+		public static final int UNCHANGED = 0;
+		public static final int OK = 1;
+		public static final int BAD = -1;
 	}
 }

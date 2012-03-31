@@ -17,7 +17,7 @@ public class RefreshRecentTvListener implements WakefulIntentService.AlarmListen
 		interval = getInterval(ctxt);	
 		mgr.setInexactRepeating(
 				AlarmManager.RTC_WAKEUP,
-				System.currentTimeMillis(),
+				System.currentTimeMillis() - interval,
 				interval, 
 				pi);
 	}

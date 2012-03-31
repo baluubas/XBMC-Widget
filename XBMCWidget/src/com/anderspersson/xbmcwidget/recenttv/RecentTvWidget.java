@@ -12,7 +12,7 @@ import android.os.Build;
 
 public class RecentTvWidget extends AppWidgetProvider {
 
-	public static final String RECENT_TV_UPDATE_WIDGET = "com.anderspersson.xbmcwidget.recenttv.UPDATE";
+	public static final String RECENT_TV_UPDATE_WIDGET = "com.anderspersson.xbmcwidget.recenttv.RECENT_TV_UPDATE_WIDGET";
 
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
