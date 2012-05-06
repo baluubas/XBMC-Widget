@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="@dimen/widget_margin">
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal|center_vertical"
+    android:background="#33000000"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical"
+    android:padding="2dp" >
+	
+	<ProgressBar     
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+    	style="@android:style/Widget.ProgressBar.Large" />
+	
+	<TextView 
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center" 
+		android:textSize="20sp"
+		android:textColor="#FFFFFF"
+		android:ellipsize="end"
+		android:text="@string/lbl_recentmovies"
+		android:layout_marginTop="7dp"
+		/>
+</LinearLayout>
+</FrameLayout>

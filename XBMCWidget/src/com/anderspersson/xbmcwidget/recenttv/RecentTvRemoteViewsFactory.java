@@ -5,8 +5,8 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -14,6 +14,7 @@ import android.widget.RemoteViewsService;
 
 import com.anderspersson.xbmcwidget.R;
 import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
+import com.anderspersson.xbmcwidget.recentvideo.CachedFanArtDownloader;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
@@ -23,11 +24,11 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
     private Context mContext;
 	private int maxNumberOfViews = 15;
 	private Boolean hadErrorsOnLastUpdate = false;
-	private CachedTvShowFanArtDownloader fanArtDownloader;		
+	private CachedFanArtDownloader fanArtDownloader;		
 
     public RecentTvRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
-        fanArtDownloader = new CachedTvShowFanArtDownloader(context);
+        fanArtDownloader = new CachedFanArtDownloader(context, new TvFanArtSize(context));
     }
 
     public void onCreate() {
@@ -61,10 +62,10 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
         fillInIntent.putExtras(extras);
         rv.setOnClickFillInIntent(R.id.recent_tv_item, fillInIntent);
 
-       	Bitmap fanArt = fanArtDownloader.download(episode.getFanArtPath());
+       	String fanArtPathOnStorage = fanArtDownloader.download(episode.getFanArtPath());
         
-       	if(fanArt != null) {
-       		rv.setImageViewBitmap(R.id.fanArt, fanArt);
+       	if(fanArtPathOnStorage != null) {
+       		rv.setImageViewUri(R.id.fanArt, Uri.parse(fanArtPathOnStorage));
        		rv.setViewVisibility(R.id.default_header, View.INVISIBLE);
        	}
        	

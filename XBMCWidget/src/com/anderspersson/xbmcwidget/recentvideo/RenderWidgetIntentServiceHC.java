@@ -1,6 +1,4 @@
-package com.anderspersson.xbmcwidget.recenttv;
-
-import java.util.List;
+package com.anderspersson.xbmcwidget.recentvideo;
 
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -12,18 +10,18 @@ import android.os.Handler;
 import android.widget.RemoteViews;
 
 import com.anderspersson.xbmcwidget.R;
+import com.anderspersson.xbmcwidget.common.ToastRunnable;
 import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
-import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
-public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
+public abstract class RenderWidgetIntentServiceHC extends IntentService {
 	
-	private static final String RETRY = "com.anderspersson.xbmcwidget.recenttv.RETRY";
+	private static final String RETRY = "com.anderspersson.xbmcwidget.recentvideo.RETRY";
  
 	private Handler handler;
 
-	public RecentTvWidgetRenderIntentServiceHC() {
-		super("RecentTvWidgetRenderIntentServiceHC");
+	public RenderWidgetIntentServiceHC(String name) {
+		super(name);
 	}
 	
 	@Override 
@@ -32,17 +30,23 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		handler = new Handler();
 	}
 	
+	protected abstract Class<?> getWidgetClass();
+	protected abstract Class<?> getRemoveViewsService();
+	protected abstract boolean hasWidgetData();
+	protected abstract int getLoadingViewId();
+	protected abstract Class<?> getRefreshRecentIntentService();
+	
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		String action = intent.getAction();
 		
-		if(action.equals(RecentTvWidget.RECENT_TV_UPDATE_WIDGET)) {
+		if(action.equals(RecentVideoWidget.RECENT_VIDEO_UPDATE_WIDGET)) {
 			createWidget(intent.getIntExtra("widgetId", 0));
 		}
-		else if(action.equals(RecentTvRefreshedIntent.REFRESHED)) {
+		else if(action.equals(RecentVideoIntentActions.REFRESHED)) {
 			refreshWidgets();
 		}
-		else if(action.equals(RecentTvRefreshedIntent.REFRESH_FAILED)) {
+		else if(action.equals(RecentVideoIntentActions.REFRESH_FAILED)) {
 			refreshFailed();
 		}
 		else if(action.equals(XbmcService.PLAY_EPISODE_ACTION)) {
@@ -52,20 +56,24 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
             retry();
         }
 	}
-
+	
+	protected XbmcWidgetApplication getWidgetApplication() {
+		return (XbmcWidgetApplication)getApplicationContext();
+	}
+	
 	private void retry() {
 		createLoadingView();
 		startRefreshService();
 	}
 
 	private void startRefreshService() {
-		Intent fanArtDownloadIntent = new Intent(this, RefreshRecentTvIntentService.class);
-		startService(fanArtDownloadIntent);
+		Intent refreshIntentService = new Intent(this, getRefreshRecentIntentService());
+		startService(refreshIntentService);
 	}
 
 	private void refreshFailed() {
 		
-		if(hasEpisodes()) 
+		if(hasWidgetData()) 
 			return;
 		
 		createFailedView();
@@ -73,7 +81,7 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 	
 	private void refreshWidgets() {
 		
-		if(hasEpisodes() == false) 
+		if(hasWidgetData() == false) 
 		{
 			createFailedView();
 			return;
@@ -86,10 +94,6 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 	
 		getWidgetManager().notifyAppWidgetViewDataChanged(ids, R.id.stack_view);
 	}
-
-	private boolean hasEpisodes() {
-		return getEpisodes().size() > 0;
-	}
 	
 	private int[] getWidgetIds() {
         return getWidgetManager().getAppWidgetIds(getComponentName());
@@ -100,18 +104,18 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 	}
 	
 	private ComponentName getComponentName() {
-		return new ComponentName(getPackageName(), RecentTvWidget.class.getName() );
+		return new ComponentName(getPackageName(), getWidgetClass().getName() );
 	}
 
 	private void createWidget(int appWidgetId) {
-		if(hasEpisodes()) {
+		if(hasWidgetData()) {
 			updateRemoteView(getWidgetManager(), appWidgetId);
 			return;
 		}	
 	}
 
 	private void handlePlayClick(String filePath) {
-		handler.post(new SentToXBMCToast(this));
+		handler.post(new ToastRunnable(this, "Playing on XBMC"));
 		
 		Intent playIntent = new Intent(this, XbmcService.class);
 		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
@@ -121,14 +125,14 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 	}
 
 	private void updateRemoteView(AppWidgetManager appWidgetManager, int appWidgetId) {
-		Intent intent = new Intent(this, RecentTvRemoteViewsService.class);
+		Intent intent = new Intent(this, getRemoveViewsService());
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 		
-		RemoteViews rv = new RemoteViews(this.getPackageName(), R.layout.recent_tv_widget);
+		RemoteViews rv = new RemoteViews(this.getPackageName(), R.layout.recent_video_widget);
 		rv.setRemoteAdapter(appWidgetId, R.id.stack_view, intent);
 
-		Intent playIntent = new Intent(this, RecentTvWidgetRenderIntentServiceHC.class);
+		Intent playIntent = new Intent(this, this.getClass());
 		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
 		playIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -143,10 +147,10 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		int[] widgetIds = getWidgetIds();
 		
 		for(int i = 0; i < widgetIds.length; i++) {
-			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_failed);
-			ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );
+			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_video_widget_failed);
+			ComponentName recentTvWidget = new ComponentName( this, getWidgetClass() );
 			
-			Intent retryIntent = new Intent(this, RecentTvWidgetRenderIntentServiceHC.class);
+			Intent retryIntent = new Intent(this, this.getClass());
 			retryIntent.setAction(RETRY);
 			PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, retryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	        rv.setOnClickPendingIntent(R.id.retry_button, toastPendingIntent);
@@ -160,18 +164,9 @@ public class RecentTvWidgetRenderIntentServiceHC extends IntentService {
 		int[] widgetIds = getWidgetIds();
 		
 		for(int i = 0; i < widgetIds.length; i++) {
-			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_loading);
-			ComponentName recentTvWidget = new ComponentName( this, RecentTvWidget.class );	
+			RemoteViews rv = new RemoteViews( this.getPackageName(), getLoadingViewId());
+			ComponentName recentTvWidget = new ComponentName( this, getWidgetClass());	
 		    appWidgetManager.updateAppWidget( recentTvWidget, rv );
 		}
-	}
-	
-	private List<TvShowEpisode> getEpisodes() {
-		XbmcWidgetApplication app = getWidgetApplication();
-		return app.getLastDownloadedEpisodes();
-	}
-	
-	private XbmcWidgetApplication getWidgetApplication() {
-		return (XbmcWidgetApplication)getApplicationContext();
 	}
 }

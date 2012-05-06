@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/recent_tv_item"
+    android:background="#33000000"
+    android:padding="2dp">
+    
+	<ImageView 
+        android:id="@+id/fanArt"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="#A9A9A9" 
+		android:gravity="center" 
+		android:padding="1px"
+		android:src="@drawable/default_movie_fan_art"
+		android:adjustViewBounds="true" />
+		
+	<ImageView 
+        android:id="@+id/new_icon"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="1px"
+		android:src="@drawable/new_label" />
+	
+</RelativeLayout>

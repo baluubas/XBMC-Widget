@@ -58,7 +58,7 @@
     </receiver>
     
     <receiver 
-        android:name=".recenttv.RecentTvWidget" 
+        android:name=".recenttv.Widget" 
         android:label="XBMC Recent TV">
     	<intent-filter>
         	<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -68,14 +68,34 @@
         	android:name="android.appwidget.provider"
             android:resource="@xml/recent_tv_provider" />
     </receiver>
+    
+	<receiver 
+        android:name=".recentmovies.Widget" 
+        android:label="XBMC Recent Movies">
+    	<intent-filter>
+        	<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        	<action android:name="com.anderspersson.xbmcwidget.common.PREF_CHANGED" />
+		</intent-filter>
+        <meta-data
+        	android:name="android.appwidget.provider"
+            android:resource="@xml/recent_movies_provider" />
+    </receiver>
         
 	<service android:name=".xbmc.XbmcService" />
-	<service android:name=".recenttv.RefreshRecentTvIntentService" />
-	<service android:name=".recenttv.RecentTvWidgetRenderIntentService" />
-	<service android:name=".recenttv.RecentTvWidgetRenderIntentServiceHC" />
-	<service android:name=".recenttv.FanArtDownloaderIntentService" />
+	<service android:name=".recenttv.RenderWidgetIntentService" />
+	<service android:name=".recenttv.RenderWidgetIntentServiceHC" />
 	<service android:name=".recenttv.RecentTvRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
+	
+	<service android:name=".recentmovies.RenderWidgetIntentService" />
+	<service android:name=".recentmovies.RenderWidgetIntentServiceHC" />
+	<service android:name=".recentmovies.RecentMoviesRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+	
+	<service android:name=".recentvideo.FanArtDownloaderIntentService" />
+	<service android:name=".common.TimerIntentService" />
+
 </application>
 </manifest>

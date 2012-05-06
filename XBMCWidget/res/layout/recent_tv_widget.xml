@@ -20,7 +20,7 @@
 		android:background="#A9A9A9" 
 		android:scaleType="centerCrop"
 		android:padding="1px"
-		android:src="@drawable/default_fan_art"
+		android:src="@drawable/default_tv_fan_art"
 		android:adjustViewBounds="true" />
 	
 	<TextView 

@@ -4,17 +4,17 @@ import android.preference.EditTextPreference;
 
 import com.anderspersson.xbmcwidget.common.TimeAgo;
 
-public class RecentTvRefreshPrefUpdater {
+public class RecentVideoRefreshPrefUpdater {
 
 	private EditTextPreference pref;
 
-	public RecentTvRefreshPrefUpdater(EditTextPreference pref) {
+	public RecentVideoRefreshPrefUpdater(EditTextPreference pref) {
 		this.pref = pref;
 		setValues();
 	}
 
 	private void setValues() {
-		String timeAgoStr = pref.getSharedPreferences().getString("recenttv_last_refresh", "0");
+		String timeAgoStr = pref.getSharedPreferences().getString("recentvideo_last_refresh", "0");
 		String text = "";
 		if(timeAgoStr == null || timeAgoStr.length() == 0)  {
 			text = "Not yet";

@@ -1,4 +1,4 @@
-package com.anderspersson.xbmcwidget.recenttv;
+package com.anderspersson.xbmcwidget.recentmovies;
 
 import com.anderspersson.xbmcwidget.recentvideo.RecentVideoIntentActions;
 
@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-public class RecentTvRefreshedIntent extends Intent {
+public class RecentMoviesRefreshedIntent extends Intent {
 	
-	public RecentTvRefreshedIntent(Context context, Boolean isSuccess) {
+	public RecentMoviesRefreshedIntent(Context context, Boolean isSuccess) {
 		super(context, getWidgetClass());
 		setAction(isSuccess ? RecentVideoIntentActions.REFRESHED : RecentVideoIntentActions.REFRESH_FAILED);
 	}

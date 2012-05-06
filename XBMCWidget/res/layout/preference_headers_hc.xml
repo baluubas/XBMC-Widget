@@ -6,8 +6,8 @@
             android:title="@string/lbl_hosts" >
     </header>
 
-        <header android:fragment="com.anderspersson.xbmcwidget.configuration.RecentTvPreferenceFragment"
-            android:title="@string/lbl_recenttv" >
+        <header android:fragment="com.anderspersson.xbmcwidget.configuration.RecentVideoPreferenceFragment"
+            android:title="@string/lbl_recent_tv_movies" >
     </header>
     
     <header

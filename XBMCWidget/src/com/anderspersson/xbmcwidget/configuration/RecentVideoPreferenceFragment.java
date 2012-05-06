@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceFragment;
 
-public class RecentTvPreferenceFragment extends PreferenceFragment {	
+public class RecentVideoPreferenceFragment extends PreferenceFragment {	
 	 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class RecentTvPreferenceFragment extends PreferenceFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		final EditTextPreference pref = (EditTextPreference)findPreference("recenttv_last_refresh");
-		new RecentTvRefreshPrefUpdater(pref);
+		final EditTextPreference pref = (EditTextPreference)findPreference("recentvideo_last_refresh");
+		new RecentVideoRefreshPrefUpdater(pref);
 	}
 }

@@ -13,7 +13,7 @@ import android.preference.PreferenceManager;
 public class ApplicationPreferenceActivity extends PreferenceActivity {
 	
 	@SuppressWarnings("unused")
-	private RecentTvRefreshPrefUpdater recentTvRefreshPrefUpdater;
+	private RecentVideoRefreshPrefUpdater recentTvRefreshPrefUpdater;
 	private PreferenceChangedListener preferenceChangedListener;
 	private OnPreferenceChangeListener updateUsernameSummary = new OnPreferenceChangeListener() {
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -47,6 +47,6 @@ public class ApplicationPreferenceActivity extends PreferenceActivity {
 
 	private void setLastRefreshed() {
 		final EditTextPreference pref = (EditTextPreference)findPreference("recenttv_last_refresh");
-		recentTvRefreshPrefUpdater = new RecentTvRefreshPrefUpdater(pref);
+		recentTvRefreshPrefUpdater = new RecentVideoRefreshPrefUpdater(pref);
 	}
 }

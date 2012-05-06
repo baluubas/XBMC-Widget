@@ -36,36 +36,38 @@ public final class R {
         public static final int back=0x7f020009;
         public static final int background=0x7f02000a;
         public static final int context=0x7f02000b;
-        public static final int default_fan_art=0x7f02000c;
-        public static final int fullscreen=0x7f02000d;
-        public static final int home=0x7f02000e;
-        public static final int ic_launcher=0x7f02000f;
-        public static final int ic_notification=0x7f020010;
-        public static final int nav_btn_src_selector_left=0x7f020011;
-        public static final int nav_btn_src_selector_right=0x7f020012;
-        public static final int new_label=0x7f020013;
-        public static final int osd=0x7f020014;
-        public static final int playpause=0x7f020015;
-        public static final int recent_tv_preview=0x7f020016;
-        public static final int remote_button_selector=0x7f020017;
-        public static final int remote_preview=0x7f020018;
-        public static final int select=0x7f020019;
+        public static final int default_movie_fan_art=0x7f02000c;
+        public static final int default_tv_fan_art=0x7f02000d;
+        public static final int fullscreen=0x7f02000e;
+        public static final int home=0x7f02000f;
+        public static final int ic_launcher=0x7f020010;
+        public static final int ic_notification=0x7f020011;
+        public static final int nav_btn_src_selector_left=0x7f020012;
+        public static final int nav_btn_src_selector_right=0x7f020013;
+        public static final int new_label=0x7f020014;
+        public static final int osd=0x7f020015;
+        public static final int playpause=0x7f020016;
+        public static final int recent_movies_preview=0x7f020017;
+        public static final int recent_tv_preview=0x7f020018;
+        public static final int remote_button_selector=0x7f020019;
+        public static final int remote_preview=0x7f02001a;
+        public static final int select=0x7f02001b;
     }
     public static final class id {
         public static final int about_message=0x7f0a0000;
-        public static final int age=0x7f0a0007;
+        public static final int age=0x7f0a0006;
         public static final int back=0x7f0a001c;
         public static final int context=0x7f0a001a;
-        public static final int default_header=0x7f0a0003;
+        public static final int default_header=0x7f0a0007;
         public static final int down=0x7f0a0018;
         public static final int down2=0x7f0a0019;
         public static final int fanArt=0x7f0a0002;
         public static final int home=0x7f0a000e;
-        public static final int item_header=0x7f0a0005;
-        public static final int item_subheader=0x7f0a0006;
+        public static final int item_header=0x7f0a0004;
+        public static final int item_subheader=0x7f0a0005;
         public static final int left=0x7f0a0012;
         public static final int left2=0x7f0a0013;
-        public static final int new_icon=0x7f0a0004;
+        public static final int new_icon=0x7f0a0003;
         public static final int next_show=0x7f0a000a;
         public static final int play_recenttv_button=0x7f0a000b;
         public static final int playpause=0x7f0a001b;
@@ -87,15 +89,18 @@ public final class R {
         public static final int about=0x7f030000;
         public static final int host_setting=0x7f030001;
         public static final int preference_headers_hc=0x7f030002;
-        public static final int recent_tv_item=0x7f030003;
-        public static final int recent_tv_widget=0x7f030004;
-        public static final int recent_tv_widget_failed=0x7f030005;
-        public static final int recent_tv_widget_loading=0x7f030006;
-        public static final int recenttv=0x7f030007;
-        public static final int recenttv_setting=0x7f030008;
-        public static final int remote_widget=0x7f030009;
-        public static final int settings_pre_v11=0x7f03000a;
-        public static final int troubleshooting=0x7f03000b;
+        public static final int recent_movie_item=0x7f030003;
+        public static final int recent_movies_widget_loading=0x7f030004;
+        public static final int recent_tv_item=0x7f030005;
+        public static final int recent_tv_widget=0x7f030006;
+        public static final int recent_tv_widget_loading=0x7f030007;
+        public static final int recent_video_widget=0x7f030008;
+        public static final int recent_video_widget_failed=0x7f030009;
+        public static final int recenttv=0x7f03000a;
+        public static final int recenttv_setting=0x7f03000b;
+        public static final int remote_widget=0x7f03000c;
+        public static final int settings_pre_v11=0x7f03000d;
+        public static final int troubleshooting=0x7f03000e;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
@@ -104,28 +109,31 @@ public final class R {
         public static final int error_ticker_text=0x7f080003;
         public static final int lbl_about=0x7f080009;
         public static final int lbl_host=0x7f080004;
-        public static final int lbl_host_summary=0x7f08000e;
-        public static final int lbl_hosts=0x7f08000d;
+        public static final int lbl_host_summary=0x7f080010;
+        public static final int lbl_hosts=0x7f08000f;
         public static final int lbl_password=0x7f080007;
         public static final int lbl_port=0x7f080005;
+        public static final int lbl_recent_tv_movies=0x7f08000b;
+        public static final int lbl_recentmovies=0x7f08000c;
         public static final int lbl_recenttv=0x7f08000a;
-        public static final int lbl_refresh_interval=0x7f08000b;
-        public static final int lbl_refresh_interval_summary=0x7f08000c;
-        public static final int lbl_troubleshoot=0x7f080011;
+        public static final int lbl_refresh_interval=0x7f08000d;
+        public static final int lbl_refresh_interval_summary=0x7f08000e;
+        public static final int lbl_troubleshoot=0x7f080013;
         public static final int lbl_use_auth=0x7f080008;
-        public static final int lbl_use_auth_summary=0x7f08000f;
+        public static final int lbl_use_auth_summary=0x7f080011;
         public static final int lbl_username=0x7f080006;
-        public static final int message_about=0x7f080010;
-        public static final int message_troubleshooting=0x7f080012;
-        public static final int message_update_failed=0x7f080013;
+        public static final int message_about=0x7f080012;
+        public static final int message_troubleshooting=0x7f080014;
+        public static final int message_update_failed=0x7f080015;
     }
     public static final class style {
         public static final int RecentTvButton=0x7f090001;
         public static final int RemoteButton=0x7f090000;
     }
     public static final class xml {
-        public static final int recent_tv_provider=0x7f040000;
-        public static final int remote_provider=0x7f040001;
-        public static final int wakeful=0x7f040002;
+        public static final int recent_movies_provider=0x7f040000;
+        public static final int recent_tv_provider=0x7f040001;
+        public static final int remote_provider=0x7f040002;
+        public static final int wakeful=0x7f040003;
     }
 }

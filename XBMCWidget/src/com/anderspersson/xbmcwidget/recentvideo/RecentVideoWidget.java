@@ -1,7 +1,8 @@
-package com.anderspersson.xbmcwidget.recenttv;
+package com.anderspersson.xbmcwidget.recentvideo;
 
+import com.anderspersson.xbmcwidget.common.ITimerCallback;
+import com.anderspersson.xbmcwidget.common.UpdateTimer;
 import com.anderspersson.xbmcwidget.configuration.PreferenceChangedListener;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -10,10 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-public class RecentTvWidget extends AppWidgetProvider {
+public abstract class RecentVideoWidget extends AppWidgetProvider {
 
-	public static final String RECENT_TV_UPDATE_WIDGET = "com.anderspersson.xbmcwidget.recenttv.RECENT_TV_UPDATE_WIDGET";
-
+	public static final String RECENT_VIDEO_UPDATE_WIDGET = "com.anderspersson.xbmcwidget.recenttv.RECENT_TV_UPDATE_WIDGET";
+	public UpdateTimer _timer = new UpdateTimer();
+	
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
 		super.onDeleted(context, appWidgetIds);
@@ -22,13 +24,13 @@ public class RecentTvWidget extends AppWidgetProvider {
 	@Override
 	public void onDisabled(Context context) {
 		super.onDisabled(context);
-		WakefulIntentService.cancelAlarms(context);
+		_timer.removeCallback(context, getTimerCallback(context));
 	}
 
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
-		WakefulIntentService.scheduleAlarms(new RefreshRecentTvListener(), context);
+		_timer.addCallback(context, getTimerCallback(context));
 	}
 
 	@Override
@@ -38,12 +40,11 @@ public class RecentTvWidget extends AppWidgetProvider {
 			return;
 		}
 		
-		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), RecentTvWidget.class.getName() );
+		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), this.getClass().getName() );
 		int[] ids = AppWidgetManager.getInstance(context).getAppWidgetIds(thisAppWidget);		
 		
 		if(ids.length > 0) {
-			WakefulIntentService.cancelAlarms(context);
-			WakefulIntentService.scheduleAlarms(new RefreshRecentTvListener(), context);
+			_timer.reset(context);
 		}
 	}
 
@@ -53,20 +54,24 @@ public class RecentTvWidget extends AppWidgetProvider {
 
 		for (int i = 0; i < appWidgetIds.length; ++i) {
 			Intent updateIntent = createUpdateIntent(context);
-			updateIntent.setAction(RECENT_TV_UPDATE_WIDGET);
+			updateIntent.setAction(RECENT_VIDEO_UPDATE_WIDGET);
 			updateIntent.putExtra("widgetId", appWidgetIds[i]);
 			context.startService(updateIntent);
 		}   	
 	}
+	
+	protected abstract Class<?> getPreHCRenderIntentService();	
+	protected abstract Class<?> getHCRenderIntentService() ;
+	protected abstract ITimerCallback getTimerCallback(Context ctx);
 
 	private Intent createUpdateIntent(Context context) {
-		return new Intent(context, getRecentTvWidgetRenderIntentService());
+		return new Intent(context, getRecentWidgetRenderIntentService());
 	}
 
-	private Class<?> getRecentTvWidgetRenderIntentService() {
+	private Class<?> getRecentWidgetRenderIntentService() {
 		int honeycombVersion = 11;
 		return Build.VERSION.SDK_INT < honeycombVersion 
-				? RecentTvWidgetRenderIntentService.class
-				: RecentTvWidgetRenderIntentServiceHC.class; 
+				? getPreHCRenderIntentService() 
+				: getHCRenderIntentService(); 
 	}
 }

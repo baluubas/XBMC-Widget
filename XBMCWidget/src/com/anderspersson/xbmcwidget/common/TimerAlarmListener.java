@@ -1,4 +1,4 @@
-package com.anderspersson.xbmcwidget.recenttv;
+package com.anderspersson.xbmcwidget.common;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.commonsware.cwac.wakeful.*;
+import com.commonsware.cwac.wakeful.WakefulIntentService;
 
-public class RefreshRecentTvListener implements WakefulIntentService.AlarmListener {
+public class TimerAlarmListener implements WakefulIntentService.AlarmListener {
 	
-	int interval;
+	private int interval;
 	
 	public void scheduleAlarms(AlarmManager mgr, PendingIntent pi, Context ctxt) {
 		
@@ -31,7 +31,7 @@ public class RefreshRecentTvListener implements WakefulIntentService.AlarmListen
 	}
 
 	public void sendWakefulWork(Context ctxt) {
-		WakefulIntentService.sendWakefulWork(ctxt, RefreshRecentTvIntentService.class);
+		WakefulIntentService.sendWakefulWork(ctxt, TimerIntentService.class);
 	}
 
 	public long getMaxAge() {
