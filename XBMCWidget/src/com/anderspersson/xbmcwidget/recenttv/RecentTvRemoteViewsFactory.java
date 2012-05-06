@@ -8,34 +8,36 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.recentvideo.CachedFanArtDownloader;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
 public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private List<TvShowEpisode> downloadedEpisodes = new ArrayList<TvShowEpisode>();
-
-    private Context mContext;
-	private int maxNumberOfViews = 15;
+    
+    private Context _context;
+	private CachedFanArtDownloader _fanArtDownloader;
+	private RecentTvCache _recentEpisodesCache;
+	
+    private int maxNumberOfViews = 15;
 	private Boolean hadErrorsOnLastUpdate = false;
-	private CachedFanArtDownloader fanArtDownloader;		
-
+	private List<TvShowEpisode> downloadedEpisodes = new ArrayList<TvShowEpisode>();
+	
     public RecentTvRemoteViewsFactory(Context context, Intent intent) {
-        mContext = context;
-        fanArtDownloader = new CachedFanArtDownloader(context, new TvFanArtSize(context));
+        _context = context;
+        _fanArtDownloader = new CachedFanArtDownloader(context, new TvFanArtSize(context));
+        _recentEpisodesCache = new RecentTvCache(context);
     }
 
     public void onCreate() {
     }
 
     public void onDestroy() {
-    	downloadedEpisodes.clear();
     }
 
     public int getCount() {
@@ -47,7 +49,7 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
     public RemoteViews getViewAt(int position) {
     	TvShowEpisode episode = downloadedEpisodes.get(position);
     	
-    	RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.recent_tv_item);
+    	RemoteViews rv = new RemoteViews(_context.getPackageName(), R.layout.recent_tv_item);
     	
         rv.setTextViewText(R.id.item_header, episode.getTvShowTitle());
         rv.setTextViewText(R.id.default_header, episode.getTvShowTitle());
@@ -62,7 +64,7 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
         fillInIntent.putExtras(extras);
         rv.setOnClickFillInIntent(R.id.recent_tv_item, fillInIntent);
 
-       	String fanArtPathOnStorage = fanArtDownloader.download(episode.getFanArtPath());
+       	String fanArtPathOnStorage = _fanArtDownloader.download(episode.getFanArtPath());
         
        	if(fanArtPathOnStorage != null) {
        		rv.setImageViewUri(R.id.fanArt, Uri.parse(fanArtPathOnStorage));
@@ -99,7 +101,11 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
     }
 
     public void onDataSetChanged() {
-    	XbmcWidgetApplication app = (XbmcWidgetApplication)mContext.getApplicationContext();
-    	downloadedEpisodes = app.getLastDownloadedEpisodes();
+    	try {
+			downloadedEpisodes = _recentEpisodesCache.get();
+		} catch (Exception e) {
+			Log.e("RecentTvRemoteViewsFactory", "Unable to get cached episodes.", e);
+			downloadedEpisodes = new ArrayList<TvShowEpisode>();
+		}
     }
 }

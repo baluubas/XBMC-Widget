@@ -1,17 +1,23 @@
 package com.anderspersson.xbmcwidget.recenttv;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
+import com.anderspersson.xbmcwidget.recentvideo.FanArtSize;
 import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 
 public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.recentvideo.RenderWidgetIntentService {
+	
+	private RecentTvCache _recentTvCache;
+	
 	public RenderWidgetIntentService() {
 		super("RecentVideoWidgetRenderIntentService (TV)");
+		_recentTvCache = new RecentTvCache(this);
 	}
 	
 	@Override
@@ -26,7 +32,7 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 	
 	@Override
 	protected boolean hasWidgetData() {
-		return getEpisodes().size() > 0;
+		return _recentTvCache.isEmpty() == false;
 	}
 	
 	protected void refreshCurrent() {
@@ -49,9 +55,18 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 		return getEpisodes().size() - 1;
 	}
 	
+	@Override
+	protected FanArtSize getFanArtSize() {
+		return new TvFanArtSize(this);
+	}
+	
 	private List<TvShowEpisode> getEpisodes() {
-		XbmcWidgetApplication app = getWidgetApplication();
-		return app.getLastDownloadedEpisodes();
+		try {
+			return _recentTvCache.get();
+		} catch (Exception e) {
+			Log.e("RenderWidget", "Unable to get recent tv from cache.", e);
+			return new ArrayList<TvShowEpisode>();
+		} 
 	}
 	
 	private void setCurrentEpisodeIndex(int episodeIndex) {

@@ -1,21 +1,23 @@
 package com.anderspersson.xbmcwidget.recentmovies;
 
-import java.util.List;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.recentvideo.VideoUpdaterService;
 import com.anderspersson.xbmcwidget.xbmc.GetRecentMoviesCommand;
-import com.anderspersson.xbmcwidget.xbmc.Movie;
 
 public class RecentMoviesUpdater extends VideoUpdaterService {
 
+	public RecentMoviesCache _moviesCache;
+	
 	public RecentMoviesUpdater(Context ctx) {
 		super(ctx);
+		
+		_moviesCache = new RecentMoviesCache(ctx);
 	}
 	
 	@Override
@@ -24,24 +26,29 @@ public class RecentMoviesUpdater extends VideoUpdaterService {
 	}
 
 	@Override
-	protected boolean tryRefreshData() {
-		List<Movie> movies = getMovies();
+	protected UpdateResult tryRefreshData() {
+		JSONObject movieData = getMoviesData();
 		
-		if(movies == null)
-			return false;
+		if(movieData == null)
+			return UpdateResult.Failed;
 		
-		XbmcWidgetApplication app = (XbmcWidgetApplication)_ctx.getApplicationContext();
-		app.updateDownloadedMovies(movies);
+		boolean isNewContentIdentical = false;
+		try {
+			isNewContentIdentical = _moviesCache.put(movieData);
+		} catch (Exception e) {
+			Log.e("RecentMoviesUpdater", "Unable to store movies in cache", e);
+			return UpdateResult.Failed;
+		}
 		
-		return true;
+		return isNewContentIdentical ? UpdateResult.NoChange : UpdateResult.Updated;
 	}
 	
-	private List<Movie> getMovies() {
-		GetRecentMoviesCommand getEpisodesCmd = new GetRecentMoviesCommand(
+	private JSONObject getMoviesData() {
+		GetRecentMoviesCommand getMoviesCmd = new GetRecentMoviesCommand(
 				PreferenceManager.getDefaultSharedPreferences(_ctx));
 		
 		try {
-			return getEpisodesCmd.execute();
+			return getMoviesCmd.execute();
 		} catch (Exception ex) {
 			Log.v("RefreshRecentMoviesIn..", "Failed to download movies", ex);
 			return null;

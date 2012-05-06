@@ -26,7 +26,7 @@ public class CachedFanArtDownloader {
 			return null;
 		
 		String url = "/vfs/" + Uri.encode(path);
-		String key = Uri.parse(path).getLastPathSegment();
+		String key = makeCacheKey(path);
 		
 		if(_cache.has(key))
 			return _cache.get(key);
@@ -35,13 +35,12 @@ public class CachedFanArtDownloader {
 			DownloadBitmapCommand downloadCommand = createBitmapDownloader(url);
 			Bitmap result = downloadCommand.execute();
 			
-			
-			if(result != null) {
-				_cache.put(key, result);
+			if(result == null) {
+				return null;
 			}
 			
+			_cache.put(key, result);
 			result.recycle();
-
 			return _cache.get(key);
 			
 		} catch(Exception ex) {
@@ -49,6 +48,14 @@ public class CachedFanArtDownloader {
 					String.format("Failed to download fanart '%s' - using default.", url), ex);
 			return null;
 		}
+	}
+	
+	public boolean isCached(String fanArtPath) {
+		return _cache.has(makeCacheKey(fanArtPath));
+	}
+
+	private String makeCacheKey(String path) {
+		return Uri.parse(path).getLastPathSegment();
 	}
 
 	private DownloadBitmapCommand createBitmapDownloader(String url) {

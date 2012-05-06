@@ -20,21 +20,14 @@ public class BitmapCache {
 	
 	public BitmapCache(Context context) {
 		_context = context;
-		
-		storage = isExternalStorageAvailable() 
-				? new SdCardStorage(context)
-				: new InteralStorage(context);
-				
-		for(File f : storage.listFiles(new OnlyExtensionFilter(Suffix)))
-			f.delete();
 	}
 	
-	public Boolean has(String key) {	purgeOverflow();	
-		return storage.hasFile(getFilenameForKey(key));
+	public Boolean has(String key) {		
+		return getStorage().hasFile(getFilenameForKey(key));
 	}
 	
 	public String get(String key) {
-		return storage.getAbsolutePath(getFilenameForKey(key));
+		return getStorage().getAbsolutePath(getFilenameForKey(key));
 	}
 	
 	public void put(String key, Bitmap bitmap) {
@@ -44,7 +37,7 @@ public class BitmapCache {
 		OutputStream cacheStream = null;
 		try {
 			
-			cacheStream = storage.getFileOuputStream(getFilenameForKey(key));
+			cacheStream = getStorage().getFileOuputStream(getFilenameForKey(key));
 			bitmap.compress(CompressFormat.PNG, 100, cacheStream);
 			
 		} catch (Exception e) {
@@ -61,9 +54,19 @@ public class BitmapCache {
 			}
 		}
 	}
+	
+	private IPublicStorage getStorage() {
+		if(storage != null)
+			return storage;
+		
+		storage = isExternalStorageAvailable() 
+				? new SdCardStorage(_context)
+				: new InteralStorage(_context);
+		return storage;
+	}
 
 	private void purgeOverflow() {
-		File[] cachedFiles = storage.listFiles(new OnlyExtensionFilter(Suffix));
+		File[] cachedFiles = getStorage().listFiles(new OnlyExtensionFilter(Suffix));
 		
 		if(cachedFiles.length < MaxCachedBitmaps)
 			return;

@@ -1,25 +1,19 @@
 package com.anderspersson.xbmcwidget.recenttv;
 
-import java.util.List;
-
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
-import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
-
 
 public class RenderWidgetIntentServiceHC extends com.anderspersson.xbmcwidget.recentvideo.RenderWidgetIntentServiceHC {
+	
+	private RecentTvCache _recentTvCache;
+	
 	public RenderWidgetIntentServiceHC() {
 		super("RenderWidgetIntentServiceHC (TV)");
+		_recentTvCache = new RecentTvCache(this);
 	}
 
 	@Override
 	protected boolean hasWidgetData() {
-		return getEpisodes().size() > 0;
-	}
-	
-	private List<TvShowEpisode> getEpisodes() {
-		XbmcWidgetApplication app = getWidgetApplication();
-		return app.getLastDownloadedEpisodes();
+		return _recentTvCache.isEmpty() == false;
 	}
 	
 	@Override

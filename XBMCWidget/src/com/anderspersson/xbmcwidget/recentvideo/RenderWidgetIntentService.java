@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.BitmapCache;
 import com.anderspersson.xbmcwidget.common.ToastRunnable;
 import com.anderspersson.xbmcwidget.common.UpdateTimer;
 import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
@@ -25,11 +24,11 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	protected enum REFRESH_STATE { UNCHANGED, OK, FAILURE };
 
 	private Handler _handler;
-	BitmapCache _fanArtCache;
+	private CachedFanArtDownloader _fanArtDownloader;
 	
 	public RenderWidgetIntentService(String name) {
 		super(name);
-		_fanArtCache = new BitmapCache(this);
+		_fanArtDownloader = new CachedFanArtDownloader(this, getFanArtSize());
 	}
 	
 	@Override 
@@ -85,6 +84,7 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	protected abstract void moveTo(int index);
 	protected abstract void setupViewData(int episodeIndex, RemoteViews rv, REFRESH_STATE state);
 	protected abstract int getMaxIndex();
+	protected abstract FanArtSize getFanArtSize();
 	
 	protected XbmcWidgetApplication getWidgetApplication() {
 		return (XbmcWidgetApplication)getApplicationContext();
@@ -119,8 +119,8 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	
 	protected void setupFanArt(RemoteViews rv, String fanArtPath, int drawableId) {
 		
-		if(_fanArtCache.has(fanArtPath)) {
-			String fanartPathCachedOnStorage = _fanArtCache.get(fanArtPath);
+		if(_fanArtDownloader.isCached(fanArtPath)) {
+			String fanartPathCachedOnStorage = _fanArtDownloader.download(fanArtPath);
 			
 			rv.setViewVisibility(R.id.default_header, View.INVISIBLE);
 			rv.setImageViewUri(R.id.fanArt, Uri.fromFile(new File(fanartPathCachedOnStorage)));

@@ -3,8 +3,8 @@ package com.anderspersson.xbmcwidget.recentmovies;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.recentvideo.CachedFanArtDownloader;
 import com.anderspersson.xbmcwidget.xbmc.Movie;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
@@ -13,10 +13,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
 
 public class RecentMoviesRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
@@ -24,12 +24,14 @@ public class RecentMoviesRemoteViewsFactory implements RemoteViewsService.Remote
 
 	private List<Movie> movies = new ArrayList<Movie>();
 	private Context _context;
-	private CachedFanArtDownloader _fanArtDownloader;	
+	private CachedFanArtDownloader _fanArtDownloader;
+	private RecentMoviesCache recentMoviesCache;
 	
 	public RecentMoviesRemoteViewsFactory(Context context, Intent intent) {
 		this._context = context;
         this._fanArtDownloader = new CachedFanArtDownloader(context, new MovieFanArtSize(context));
-    }
+        this.recentMoviesCache = new RecentMoviesCache(context);
+	}
 
     public void onCreate() {
     }
@@ -84,8 +86,14 @@ public class RecentMoviesRemoteViewsFactory implements RemoteViewsService.Remote
     }
 
     public void onDataSetChanged() {
-       	XbmcWidgetApplication app = (XbmcWidgetApplication)_context.getApplicationContext();
-       	movies = app.getLastDownloadedMovies();
+       	try {
+			movies = recentMoviesCache.get();
+		} catch (Exception e) {
+			Log.e("RecentMoviesRemoteViewsFactory", 
+				"Unable to get recent movies from cache", 
+				e);
+			movies = new ArrayList<Movie>();
+		}
     }
     
 	private int getNewIconVisibility(Movie movie) {

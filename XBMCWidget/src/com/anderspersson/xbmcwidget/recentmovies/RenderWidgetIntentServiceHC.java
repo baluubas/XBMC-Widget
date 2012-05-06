@@ -1,19 +1,19 @@
 package com.anderspersson.xbmcwidget.recentmovies;
 
-import java.util.List;
-
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
-import com.anderspersson.xbmcwidget.xbmc.Movie;
 
 public class RenderWidgetIntentServiceHC extends com.anderspersson.xbmcwidget.recentvideo.RenderWidgetIntentServiceHC {
+	
+	private RecentMoviesCache _recentMoviesCache;
+	
 	public RenderWidgetIntentServiceHC() {
 		super("RenderWidgetIntentServiceHC (Movie)");
+		_recentMoviesCache = new RecentMoviesCache(this);
 	}
 
 	@Override
 	protected boolean hasWidgetData() {
-		return getMovies().size() > 0;
+		return _recentMoviesCache.isEmpty() == false;
 	}
 	
 	@Override
@@ -34,10 +34,5 @@ public class RenderWidgetIntentServiceHC extends com.anderspersson.xbmcwidget.re
 	@Override
 	protected Class<?> getRefreshRecentIntentService() {
 		return RecentMoviesUpdater.class;
-	}
-	
-	private List<Movie> getMovies() {
-		XbmcWidgetApplication app = getWidgetApplication();
-		return app.getLastDownloadedMovies();
 	}
 }

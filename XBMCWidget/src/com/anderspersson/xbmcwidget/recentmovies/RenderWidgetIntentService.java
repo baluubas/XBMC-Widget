@@ -1,17 +1,23 @@
 package com.anderspersson.xbmcwidget.recentmovies;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.anderspersson.xbmcwidget.R;
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
+import com.anderspersson.xbmcwidget.recentvideo.FanArtSize;
 import com.anderspersson.xbmcwidget.xbmc.Movie;
 
 public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.recentvideo.RenderWidgetIntentService {
+	
+	private RecentMoviesCache _moviesCache;
+	
 	public RenderWidgetIntentService() {
 		super("RecentVideoWidgetRenderIntentService (Movies)");
+		_moviesCache = new RecentMoviesCache(this);
 	}
 	
 	@Override
@@ -66,13 +72,22 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 		return getMovies().size()-1;
 	}
 	
+	@Override
+	protected FanArtSize getFanArtSize() {
+		return new MovieFanArtSize(this);
+	}
+	
 	private void setupTexts(Movie movie, RemoteViews rv) {
 		rv.setTextViewText(R.id.default_header, movie.getTitle());
 	}
 	
 	private List<Movie> getMovies() {
-		XbmcWidgetApplication app = getWidgetApplication();
-		return app.getLastDownloadedMovies();
+		try {
+			return _moviesCache.get();
+		} catch (Exception e) {
+			Log.e("RenderWidget", "Unable to get movies from cache.", e);
+			return new ArrayList<Movie>();
+		}
 	}
 	
 	private void setCurrentMovieIndex(int movieIndex) {

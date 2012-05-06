@@ -9,37 +9,16 @@ import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 
-public class GetRecentEpisodesCommand extends XbmcRequestBase<List<TvShowEpisode>> {
+public class GetRecentEpisodesCommand extends XbmcRequestBase<JSONObject> {
 
 	public GetRecentEpisodesCommand(SharedPreferences preferences) {
 		super(preferences);
 	}
 
-	public List<TvShowEpisode> execute() throws Exception {
-		
+	public JSONObject execute() throws Exception {
 		JSONObject response = TryGetRecentEpisodes(true);
 		response = response == null ? TryGetRecentEpisodes(false) : response;
-		
-		if(response == null)
-			return null;
-		
-		JSONArray episodes = response.getJSONObject("result").getJSONArray("episodes");
-		
-		ArrayList<TvShowEpisode> result = new ArrayList<TvShowEpisode>(); 
-		for(int i = 0; i < episodes.length(); i++) {
-			JSONObject episode = episodes.getJSONObject(i);
-			result.add(new TvShowEpisode(
-				episode.getString("file"),
-				episode.getString("showtitle"), 
-				episode.getString("title"), 
-				episode.getInt("season"), 
-				episode.getInt("episode"),
-				episode.getString("fanart"),
-				episode.getString("firstaired"),
-				episode.getInt("playcount")));
-		}
-		
-		return result;
+		return response;
 	}
 
 	private JSONObject TryGetRecentEpisodes(Boolean isDharmaAttempt) throws JSONException, Exception {

@@ -1,21 +1,22 @@
 package com.anderspersson.xbmcwidget.recenttv;
 
-import java.util.List;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.recentvideo.VideoUpdaterService;
 import com.anderspersson.xbmcwidget.xbmc.GetRecentEpisodesCommand;
-import com.anderspersson.xbmcwidget.xbmc.TvShowEpisode;
 
 public class RecentTvUpdater extends VideoUpdaterService {
 
+	private RecentTvCache _recentTvCache;
+	
 	public RecentTvUpdater(Context ctx) {
 		super(ctx);
+		_recentTvCache = new RecentTvCache(ctx);
 	}
 
 	@Override
@@ -24,19 +25,24 @@ public class RecentTvUpdater extends VideoUpdaterService {
 	}
 	
 	@Override
-	protected boolean tryRefreshData() {
-		List<TvShowEpisode> episodes = getEpisodes();
+	protected UpdateResult tryRefreshData() {
+		JSONObject episodeData = getEpisodes();
 		
-		if(episodes == null)
-			return false;
+		if(episodeData == null)
+			return UpdateResult.Failed;
 		
-		XbmcWidgetApplication app = (XbmcWidgetApplication)_ctx.getApplicationContext();
-		app.updateDownloadedEpisodes(episodes);
+		boolean isNewContentIdentical;
+		try {
+			isNewContentIdentical = _recentTvCache.put(episodeData);
+		} catch (Exception e) {
+			Log.e("RecentTvUpdater", "Failed to store episodes in cache.", e);
+			return UpdateResult.Failed;
+		}
 		
-		return true;
+		return isNewContentIdentical ? UpdateResult.NoChange : UpdateResult.Updated;
 	}
 	
-	private List<TvShowEpisode> getEpisodes() {
+	private JSONObject getEpisodes() {
 		GetRecentEpisodesCommand getEpisodesCmd = new GetRecentEpisodesCommand(PreferenceManager.getDefaultSharedPreferences(_ctx));
 		
 		try {

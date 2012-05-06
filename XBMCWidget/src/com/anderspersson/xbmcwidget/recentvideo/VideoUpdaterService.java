@@ -15,10 +15,16 @@ import android.util.Log;
 
 public abstract class VideoUpdaterService implements ITimerCallback {
 	     
+	public enum UpdateResult {
+		Failed,
+		Updated,
+		NoChange
+	}
+
     protected Context _ctx;
 
 	protected abstract Intent createRecentVideoRefreshIntent(boolean isSuccess);
-    protected abstract boolean tryRefreshData();
+    protected abstract UpdateResult tryRefreshData();
     
     public VideoUpdaterService(Context ctx) {
     	this._ctx = ctx;
@@ -30,14 +36,17 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 			return;
 		}
 		
-		boolean succeeded = tryRefreshData();
+		UpdateResult result = tryRefreshData();
 
-		if(succeeded == false) {
+		if(result == UpdateResult.Failed) {
 			_ctx.startService(createRecentVideoRefreshIntent(false));
 			return;
 		}
 		
 		setLastUpdateTime();
+		
+		if(result == UpdateResult.NoChange)
+			return;
 		
 		_ctx.startService(createRecentVideoRefreshIntent(true));
 	}
