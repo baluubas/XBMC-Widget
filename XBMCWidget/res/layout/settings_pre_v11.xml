@@ -35,7 +35,7 @@
        		android:entries="@array/refresh_intervals"
            	android:entryValues="@array/refresh_interval_values" />
         
-		<EditTextPreference android:key="recenttv_last_refresh" android:title="Last refreshed" android:focusable="false" />
+		<EditTextPreference android:key="recentvideo_last_refresh" android:title="Last refreshed" android:focusable="false" />
   	</PreferenceScreen>    
 	
 	<PreferenceScreen android:title="@string/lbl_troubleshoot"> 

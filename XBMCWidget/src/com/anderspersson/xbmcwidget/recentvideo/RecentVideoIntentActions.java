@@ -6,4 +6,5 @@ public class RecentVideoIntentActions {
 	public static final String NAVIGATE = "com.anderspersson.xbmcwidget.recentvideo.NAVIGATE";
 	public static final String RETRY = "com.anderspersson.xbmcwidget.recentvideo.RETRY";
 	public static final String FANART_DOWNLOADED = "com.anderspersson.xbmcwidget.recentvideo.FANART_DOWNLOADED";
+	public static final String NO_CHANGE = "com.anderspersson.xbmcwidget.recentvideo.NO_CHANGE";
 }

@@ -20,8 +20,8 @@ public class RecentTvUpdater extends VideoUpdaterService {
 	}
 
 	@Override
-	protected Intent createRecentVideoRefreshIntent(boolean isSuccess) {
-		return new RecentTvRefreshedIntent(_ctx, isSuccess);
+	protected Intent createRecentVideoRefreshIntent(UpdateResult result) {
+		return new RecentTvRefreshedIntent(_ctx, result);
 	}
 	
 	@Override

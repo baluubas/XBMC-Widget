@@ -10,7 +10,7 @@ public class RecentVideoPreferenceFragment extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.layout.recenttv_setting);
+		addPreferencesFromResource(R.layout.recentvideo_setting);
 	 }
 	
 	@Override

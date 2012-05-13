@@ -97,7 +97,7 @@ public final class R {
         public static final int recent_video_widget=0x7f030008;
         public static final int recent_video_widget_failed=0x7f030009;
         public static final int recenttv=0x7f03000a;
-        public static final int recenttv_setting=0x7f03000b;
+        public static final int recentvideo_setting=0x7f03000b;
         public static final int remote_widget=0x7f03000c;
         public static final int settings_pre_v11=0x7f03000d;
         public static final int troubleshooting=0x7f03000e;

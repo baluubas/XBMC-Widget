@@ -43,6 +43,7 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 		List<TvShowEpisode> episodes = getEpisodes();
 		
 		if(episodes == null || toIndex < 0 || toIndex >= episodes.size()) {
+			createFailedView();
 			return;
 		}
 		

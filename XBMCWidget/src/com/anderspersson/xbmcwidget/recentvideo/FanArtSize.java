@@ -52,13 +52,13 @@ public abstract class FanArtSize {
 		
 		if(isLandscape) {
 			float ratio = heightDp / widthDp;
-			_width = screenWidth;
-			_height = Math.round(screenWidth * ratio);
+			_width = (int)(screenWidth * metrics.density);
+			_height = (int)(Math.round(screenWidth * ratio) * metrics.density);
 		}
 		else {
 			float ratio = widthDp / heightDp;
-			_height = screenHeight;
-			_width = Math.round(screenHeight * ratio);
+			_height = (int)(screenHeight * metrics.density);
+			_width = (int)(Math.round(screenHeight * ratio) * metrics.density);
 		}	 
 	}
 }

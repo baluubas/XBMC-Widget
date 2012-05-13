@@ -46,6 +46,7 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 		List<Movie> movies = getMovies();
 		
 		if(movies == null || toIndex < 0 || toIndex >= movies.size()) {
+			createFailedView();
 			return;
 		}
 		

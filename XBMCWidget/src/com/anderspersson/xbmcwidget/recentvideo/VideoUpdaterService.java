@@ -23,7 +23,7 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 
     protected Context _ctx;
 
-	protected abstract Intent createRecentVideoRefreshIntent(boolean isSuccess);
+	protected abstract Intent createRecentVideoRefreshIntent(UpdateResult updateResult);
     protected abstract UpdateResult tryRefreshData();
     
     public VideoUpdaterService(Context ctx) {
@@ -32,23 +32,20 @@ public abstract class VideoUpdaterService implements ITimerCallback {
     
 	public void performUpdate() {
 		if(isConnectedToWifi() == false) {
-			_ctx.startService(createRecentVideoRefreshIntent(false));
+			_ctx.startService(createRecentVideoRefreshIntent(UpdateResult.Failed));
 			return;
 		}
 		
 		UpdateResult result = tryRefreshData();
 
 		if(result == UpdateResult.Failed) {
-			_ctx.startService(createRecentVideoRefreshIntent(false));
+			_ctx.startService(createRecentVideoRefreshIntent(result));
 			return;
 		}
 		
 		setLastUpdateTime();
 		
-		if(result == UpdateResult.NoChange)
-			return;
-		
-		_ctx.startService(createRecentVideoRefreshIntent(true));
+		_ctx.startService(createRecentVideoRefreshIntent(result));
 	}
 
 

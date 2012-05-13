@@ -46,7 +46,7 @@ public class ApplicationPreferenceActivity extends PreferenceActivity {
 	}
 
 	private void setLastRefreshed() {
-		final EditTextPreference pref = (EditTextPreference)findPreference("recenttv_last_refresh");
+		final EditTextPreference pref = (EditTextPreference)findPreference("recentvideo_last_refresh");
 		recentTvRefreshPrefUpdater = new RecentVideoRefreshPrefUpdater(pref);
 	}
 }

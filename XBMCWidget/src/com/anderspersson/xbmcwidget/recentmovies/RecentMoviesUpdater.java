@@ -21,8 +21,8 @@ public class RecentMoviesUpdater extends VideoUpdaterService {
 	}
 	
 	@Override
-	protected Intent createRecentVideoRefreshIntent(boolean isSuccess) {
-		return new RecentMoviesRefreshedIntent(_ctx, isSuccess);
+	protected Intent createRecentVideoRefreshIntent(UpdateResult result) {
+		return new RecentMoviesRefreshedIntent(_ctx, result);
 	}
 
 	@Override

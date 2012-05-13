@@ -46,7 +46,8 @@ public abstract class RenderWidgetIntentService extends IntentService {
 		   return;
 	   }
 	   
-	   if(action.equals(RecentVideoIntentActions.REFRESHED)){
+	   if(action.equals(RecentVideoIntentActions.REFRESHED) 
+			   || action.equals(RecentVideoIntentActions.NO_CHANGE)){
 		   updateShows(REFRESH_STATE.OK);
 		   return;
 	   }
@@ -184,8 +185,10 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	private void createAppWidget() { 
 		if(hasWidgetData()) {
 			refreshCurrent();
-			return;
-		}	
+		}
+		else {
+			createFailedView();
+		}
 	}
 
 	private void updateShows(REFRESH_STATE state) {
@@ -209,7 +212,7 @@ public abstract class RenderWidgetIntentService extends IntentService {
 		startService(playIntent);	
 	}
 	
-	private void createFailedView() {
+	protected void createFailedView() {
 		RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_video_widget_failed);
 		
 		Intent retryIntent = new Intent(this, this.getClass());

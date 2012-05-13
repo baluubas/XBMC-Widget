@@ -1,6 +1,7 @@
 package com.anderspersson.xbmcwidget.recentmovies;
 
 import com.anderspersson.xbmcwidget.recentvideo.RecentVideoIntentActions;
+import com.anderspersson.xbmcwidget.recentvideo.VideoUpdaterService.UpdateResult;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +9,17 @@ import android.os.Build;
 
 public class RecentMoviesRefreshedIntent extends Intent {
 	
-	public RecentMoviesRefreshedIntent(Context context, Boolean isSuccess) {
+	public RecentMoviesRefreshedIntent(Context context, UpdateResult updateResult) {
 		super(context, getWidgetClass());
-		setAction(isSuccess ? RecentVideoIntentActions.REFRESHED : RecentVideoIntentActions.REFRESH_FAILED);
+		String action = RecentVideoIntentActions.REFRESH_FAILED;
+		
+		if(updateResult == UpdateResult.NoChange) {
+			action = RecentVideoIntentActions.NO_CHANGE;
+		}
+		else if(updateResult == UpdateResult.Updated) {
+			action = RecentVideoIntentActions.REFRESHED;
+		}
+		setAction(action);
 	}
 
 	private static Class<?> getWidgetClass() {
