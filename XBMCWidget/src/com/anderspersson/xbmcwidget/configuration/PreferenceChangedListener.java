@@ -17,7 +17,7 @@ public class PreferenceChangedListener implements OnSharedPreferenceChangeListen
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		
-		String[] nonUserPrefs = new String[] { "recent_video_last_refresh", "lastAlarm", "timerCallbacks_types" };
+		String[] nonUserPrefs = new String[] { "recentvideo_last_refresh", "lastAlarm", "timerCallbacks_types" };
 		
 		for(String pref : nonUserPrefs) {
 			if(key.equals(pref)) // is changed by the application

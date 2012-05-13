@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -52,7 +53,7 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 	private void setLastUpdateTime() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(_ctx);
 		Editor editor = prefs.edit();
-		editor.putString("recent_video_last_refresh", new Date().getTime() + "");
+		editor.putString("recentvideo_last_refresh", new Date().getTime() + "");
 		editor.commit();
 	}
 
@@ -65,7 +66,16 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 		
 			ConnectivityManager connManager = (ConnectivityManager) _ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			return wifi != null && wifi.isAvailable() && wifi.isConnected();
+			if(wifi == null || wifi.isAvailable() == false)
+				return false;
+			
+			State state = wifi.getState();
+			
+			if(state == State.CONNECTING) {
+				Thread.sleep(1000 * 5);
+			}
+			
+			return wifi.isConnected();
 		}
 		catch(Exception ex) {
 			Log.w(
