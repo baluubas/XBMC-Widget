@@ -60,9 +60,9 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 	private boolean isConnectedToWifi() {
 		
 		try {
-			if(android.os.Debug.isDebuggerConnected()) {
-				return true;
-			}
+//			if(android.os.Debug.isDebuggerConnected()) {
+//				return true;
+//			}
 		
 			ConnectivityManager connManager = (ConnectivityManager) _ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
