@@ -21,7 +21,7 @@ public class RecentVideoRefreshPrefUpdater {
 		}
 		else {
 			long timeAgo = Long.valueOf(timeAgoStr);
-			text = TimeAgo.toFriendlyString(timeAgo);
+			text = TimeAgo.toFriendlyString(pref.getContext(), timeAgo);
 		}
 		
 		pref.setSummary(text);

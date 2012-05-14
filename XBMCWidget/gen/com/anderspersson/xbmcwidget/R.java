@@ -108,9 +108,17 @@ public final class R {
         public static final int error_content_title=0x7f080001;
         public static final int error_ticker_text=0x7f080003;
         public static final int lbl_about=0x7f080009;
+        public static final int lbl_ages_ago=0x7f080019;
+        public static final int lbl_d_ago=0x7f08001b;
+        public static final int lbl_days_ago=0x7f080018;
         public static final int lbl_host=0x7f080004;
         public static final int lbl_host_summary=0x7f080010;
         public static final int lbl_hosts=0x7f08000f;
+        public static final int lbl_hour_ago=0x7f080015;
+        public static final int lbl_hours_ago=0x7f080014;
+        public static final int lbl_http_prefix=0x7f08001c;
+        public static final int lbl_just_now=0x7f080012;
+        public static final int lbl_minutes_ago=0x7f080013;
         public static final int lbl_password=0x7f080007;
         public static final int lbl_port=0x7f080005;
         public static final int lbl_recent_tv_movies=0x7f08000b;
@@ -118,13 +126,16 @@ public final class R {
         public static final int lbl_recenttv=0x7f08000a;
         public static final int lbl_refresh_interval=0x7f08000d;
         public static final int lbl_refresh_interval_summary=0x7f08000e;
-        public static final int lbl_troubleshoot=0x7f080013;
+        public static final int lbl_today=0x7f080017;
+        public static final int lbl_troubleshoot=0x7f08001e;
         public static final int lbl_use_auth=0x7f080008;
         public static final int lbl_use_auth_summary=0x7f080011;
         public static final int lbl_username=0x7f080006;
-        public static final int message_about=0x7f080012;
-        public static final int message_troubleshooting=0x7f080014;
-        public static final int message_update_failed=0x7f080015;
+        public static final int lbl_w_ago=0x7f08001a;
+        public static final int lbl_yesterday=0x7f080016;
+        public static final int message_about=0x7f08001d;
+        public static final int message_troubleshooting=0x7f08001f;
+        public static final int message_update_failed=0x7f080020;
     }
     public static final class style {
         public static final int RecentTvButton=0x7f090001;

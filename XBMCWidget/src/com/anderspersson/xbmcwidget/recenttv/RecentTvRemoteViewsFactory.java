@@ -54,7 +54,7 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
         rv.setTextViewText(R.id.item_header, episode.getTvShowTitle());
         rv.setTextViewText(R.id.default_header, episode.getTvShowTitle());
         rv.setTextViewText(R.id.item_subheader, episode.getFullEpisodeTitle());
-        rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge());
+        rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge(_context));
         rv.setInt(R.id.fanArt, "setBackgroundColor", getBorderColor());
         rv.setViewVisibility(R.id.new_icon, getNewIconVisibility(episode));
         

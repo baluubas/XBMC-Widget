@@ -5,7 +5,7 @@
 	    <EditTextPreference
 	    	android:key="hostname_preference"
 			android:title="@string/lbl_host"
-			android:text="http://"
+			android:text="@string/lbl_http_prefix"
 	        android:summary="@string/lbl_host_summary" />
 	        
 	     <CheckBoxPreference

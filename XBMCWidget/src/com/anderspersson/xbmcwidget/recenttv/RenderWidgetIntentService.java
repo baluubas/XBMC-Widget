@@ -91,6 +91,6 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 		rv.setTextViewText(R.id.default_header, episode.getTvShowTitle());
 		rv.setTextViewText(R.id.item_header, episode.getTvShowTitle());
 		rv.setTextViewText(R.id.item_subheader, episode.getFullEpisodeTitle());
-		rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge());
+		rv.setTextViewText(R.id.age, "Aired\n" + episode.getAge(this));
 	}
 }

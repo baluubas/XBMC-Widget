@@ -21,7 +21,8 @@
 		android:scaleType="centerCrop"
 		android:padding="1px"
 		android:src="@drawable/default_tv_fan_art"
-		android:adjustViewBounds="true" />
+		android:adjustViewBounds="true" 
+		android:contentDescription=""/>
 	
 	<TextView 
         android:id="@+id/default_header"
@@ -70,7 +71,7 @@
           	style="@style/RecentTvButton"  />
         
         <LinearLayout 
-            android:layout_width="fill_parent"
+            android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:layout_weight="1"
