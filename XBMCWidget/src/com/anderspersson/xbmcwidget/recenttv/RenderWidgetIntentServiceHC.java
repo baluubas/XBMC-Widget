@@ -27,6 +27,11 @@ public class RenderWidgetIntentServiceHC extends com.anderspersson.xbmcwidget.re
 	}
 	
 	@Override
+	protected int getFailedViewId() {
+		return R.layout.recent_tv_widget_failed;
+	}
+	
+	@Override
 	protected Class<?> getRemoveViewsService() {
 		return RecentTvRemoteViewsService.class;
 	}

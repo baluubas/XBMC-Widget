@@ -29,6 +29,9 @@
     <string name="lbl_w_ago">%1$dw ago</string>
     <string name="lbl_d_ago">%1$dd ago</string>
     <string name="lbl_http_prefix">http://</string>
+    <string name="lbl_new">new</string>
+    <string name="lbl_next">next</string>
+    <string name="lbl_previous">previous</string>
     <string name="message_about"><![CDATA[
     	<p>
     		This application was created by Anders Persson,  

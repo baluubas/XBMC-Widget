@@ -25,6 +25,11 @@ public class RenderWidgetIntentServiceHC extends com.anderspersson.xbmcwidget.re
 	protected int getLoadingViewId() {
 		return R.layout.recent_movies_widget_loading;
 	}
+	
+	@Override
+	protected int getFailedViewId() {
+		return R.layout.recent_movies_widget_failed;
+	}
 
 	@Override
 	protected Class<?> getRemoveViewsService() {

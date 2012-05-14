@@ -34,6 +34,7 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 	protected abstract Class<?> getRemoveViewsService();
 	protected abstract boolean hasWidgetData();
 	protected abstract int getLoadingViewId();
+	protected abstract int getFailedViewId();
 	protected abstract Class<?> getRefreshRecentIntentService();
 	
 	@Override
@@ -147,7 +148,7 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 		int[] widgetIds = getWidgetIds();
 		
 		for(int i = 0; i < widgetIds.length; i++) {
-			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_video_widget_failed);
+			RemoteViews rv = new RemoteViews( this.getPackageName(), getFailedViewId());
 			ComponentName recentTvWidget = new ComponentName( this, getWidgetClass() );
 			
 			Intent retryIntent = new Intent(this, this.getClass());

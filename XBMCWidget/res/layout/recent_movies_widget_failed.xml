@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="@dimen/widget_margin">
+    <Button
+        android:id="@+id/retry_button"
+        android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+        android:background="#0000FFFF"  />
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="match_parent"
+	    android:layout_gravity="center_horizontal|center_vertical"
+	    android:background="#33000000"
+	    android:gravity="center_horizontal|center_vertical"
+	    android:orientation="vertical"
+	    android:padding="2dp" >	
+		<ImageView
+		    android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_gravity="center|center_horizontal|center_vertical"
+		    android:scaleType="centerCrop"
+		    android:src="@drawable/ic_launcher"
+		    android:contentDescription="@string/lbl_recentmovies" />
+	
+		<TextView 
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center" 
+			android:textSize="20sp"
+			android:textColor="#FFFFFF"
+			android:ellipsize="end"
+			android:text="@string/lbl_recentmovies"
+			/>
+			
+		<TextView 
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center" 
+			android:textSize="16sp"
+			android:layout_marginTop="5dp"
+			android:textColor="#FFFFFF"
+			android:maxLines="4"
+			android:ellipsize="end"
+			android:text="@string/message_update_failed"
+			/>
+	
+	</LinearLayout>
+</FrameLayout>

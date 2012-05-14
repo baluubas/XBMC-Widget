@@ -84,7 +84,7 @@ public class TvShowEpisode {
 			return "";
 		}
 		
-		int minutesOld = (int)((new Date().getTime() - firstAired.getTime()) / 60 * 1000 );
+		int minutesOld = (int)((new Date().getTime() - firstAired.getTime()) / (60 * 1000));
 		int minutesSinceMidnight = minutesSinceMidnight();
 		
 		if(minutesOld < minutesSinceMidnight)
@@ -103,7 +103,7 @@ public class TvShowEpisode {
 	}
 	
 	private int toDays(int minutesOld) {
-		return minutesOld / 60 * 24;
+		return minutesOld / (60 * 24);
 	}
 
 	private int minutesSinceMidnight() {		
@@ -118,7 +118,7 @@ public class TvShowEpisode {
 		date = new java.util.Date();
 		int minute = Integer.parseInt(dateFormat.format(date));
 
-		return (hour* 3600) + (minute * 60);       
+		return (hour * 60) + minute;       
 	}
 
 	public boolean hasBeenSeen() {

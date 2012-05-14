@@ -51,12 +51,12 @@ public abstract class FanArtSize {
 		boolean isLandscape = widthDp > heightDp;
 		
 		if(isLandscape) {
-			float ratio = heightDp / widthDp;
+			float ratio = (float)heightDp / (float)widthDp;
 			_width = (int)(screenWidth * metrics.density);
 			_height = (int)(Math.round(screenWidth * ratio) * metrics.density);
 		}
 		else {
-			float ratio = widthDp / heightDp;
+			float ratio = (float)widthDp / (float)heightDp;
 			_height = (int)(screenHeight * metrics.density);
 			_width = (int)(Math.round(screenHeight * ratio) * metrics.density);
 		}	 

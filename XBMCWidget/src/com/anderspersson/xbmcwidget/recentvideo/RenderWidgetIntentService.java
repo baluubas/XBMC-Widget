@@ -80,6 +80,7 @@ public abstract class RenderWidgetIntentService extends IntentService {
    
 	protected abstract Class<?> getWidgetClass();
 	protected abstract int getLoadingViewId();
+	protected abstract int getFailedViewId();
 	protected abstract boolean hasWidgetData();
 	protected abstract void refreshCurrent();
 	protected abstract void moveTo(int index);
@@ -157,7 +158,8 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	}
 	
 	protected void createAndUpdateView(int viewIndex, REFRESH_STATE state) {
-		RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget );
+		RemoteViews rv = new RemoteViews( this.getPackageName(), 
+				R.layout.recent_video_widget );
 	    
 		if(viewIndex != -1) {
 			setupViewData(viewIndex, rv, state);
@@ -176,7 +178,7 @@ public abstract class RenderWidgetIntentService extends IntentService {
 		int[] widgetIds = getWidgetIds();
 		
 		for(int i = 0; i < widgetIds.length; i++) {
-			RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_tv_widget_loading);
+			RemoteViews rv = new RemoteViews( this.getPackageName(), getLoadingViewId());
 			ComponentName recentTvWidget = new ComponentName( this, getWidgetClass() );	
 		    appWidgetManager.updateAppWidget( recentTvWidget, rv );
 		}
@@ -192,12 +194,10 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	}
 
 	private void updateShows(REFRESH_STATE state) {
-		
 		if(hasWidgetData() == false) {
 			createFailedView();
 			return;
 		}
-		
 		createAndUpdateView(0, state);
 	}
 
@@ -213,9 +213,10 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	}
 	
 	protected void createFailedView() {
-		RemoteViews rv = new RemoteViews( this.getPackageName(), R.layout.recent_video_widget_failed);
+		RemoteViews rv = new RemoteViews( this.getPackageName(), getFailedViewId());
 		
-		Intent retryIntent = new Intent(this, this.getClass());
+		Class<? extends RenderWidgetIntentService> renderClass = this.getClass();
+		Intent retryIntent = new Intent(this, renderClass);
 		retryIntent.setAction(RecentVideoIntentActions.RETRY);
 		PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, retryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.retry_button, toastPendingIntent);
@@ -228,7 +229,8 @@ public abstract class RenderWidgetIntentService extends IntentService {
 	}
 	
 	private ComponentName getComponentName() {
-		return new ComponentName(getPackageName(), getWidgetClass().getName() );
+		String className = getWidgetClass().getName();
+		return new ComponentName(getPackageName(), className );
 	}
 	
 	private AppWidgetManager getWidgetManager() {

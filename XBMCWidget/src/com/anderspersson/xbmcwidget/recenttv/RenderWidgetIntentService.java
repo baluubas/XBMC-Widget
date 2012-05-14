@@ -29,6 +29,11 @@ public class RenderWidgetIntentService extends com.anderspersson.xbmcwidget.rece
 	protected int getLoadingViewId() {
 		return R.layout.recent_tv_widget_loading;
 	}
+
+	@Override
+	protected int getFailedViewId() {
+		return R.layout.recent_tv_widget_failed;
+	}
 	
 	@Override
 	protected boolean hasWidgetData() {

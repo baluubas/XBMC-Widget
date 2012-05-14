@@ -27,7 +27,7 @@
 	  </PreferenceCategory> 
   	</PreferenceScreen>    
   	
-	<PreferenceScreen android:title="@string/lbl_recenttv">            
+	<PreferenceScreen android:title="@string/lbl_recent_tv_movies">            
         <ListPreference
    			android:key="recenttv_refresh_interval_preference"
 			android:title="@string/lbl_refresh_interval"
