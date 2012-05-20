@@ -31,18 +31,24 @@ public abstract class CachedJson<SerializedType> {
 			return false;
 		}
 		
-		return hasCacheFile() == false;
+		boolean hasFile = hasCacheFile() == false;
+		return hasFile;
 	}
 
 	public List<SerializedType> get() throws IOException, JSONException {
-		
-		if(hasCacheFile() == false)
+		if(hasCacheFile() == false) {
+			FileLog.appendLog(_filename + " - Get - no file");
 			return new ArrayList<SerializedType>();
+		}
 		
 		if(_inmemoryCache != null) 
+		{
+			FileLog.appendLog(_filename + " - Get - inmemory");
 			return _inmemoryCache;
+		}
 		
 		_inmemoryCache =  _loadCachedData();
+		FileLog.appendLog(_filename + " - Get - from file");
 		return _inmemoryCache;
 	}
 	
@@ -84,6 +90,7 @@ public abstract class CachedJson<SerializedType> {
 		String newJson = json.toString();
 		
 		if(previousJson.equals(newJson)) {
+			FileLog.appendLog(_filename + " - identical");
 			return true;
 		}
 		
@@ -91,6 +98,7 @@ public abstract class CachedJson<SerializedType> {
 		fos.write(newJson.getBytes());
 	    fos.close();
 	    
+	    FileLog.appendLog(_filename + " - saved");
 	    return false;
 	}
 }

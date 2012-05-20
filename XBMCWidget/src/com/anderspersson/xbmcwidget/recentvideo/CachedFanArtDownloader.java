@@ -1,6 +1,7 @@
 package com.anderspersson.xbmcwidget.recentvideo;
 
 import com.anderspersson.xbmcwidget.common.BitmapCache;
+import com.anderspersson.xbmcwidget.common.FileLog;
 import com.anderspersson.xbmcwidget.xbmc.DownloadBitmapCommand;
 
 import android.content.Context;
@@ -28,8 +29,10 @@ public class CachedFanArtDownloader {
 		String url = "/vfs/" + Uri.encode(path);
 		String key = makeCacheKey(path);
 		
-		if(_cache.has(key))
+		if(_cache.has(key)) {
+			FileLog.appendLog("FanArt cache hit: " + key);
 			return _cache.get(key);
+		}
 		
 		try {
 			DownloadBitmapCommand downloadCommand = createBitmapDownloader(url);
@@ -40,6 +43,7 @@ public class CachedFanArtDownloader {
 			}
 			
 			_cache.put(key, result);
+			FileLog.appendLog("FanArt cached: " + key);
 			result.recycle();
 			return _cache.get(key);
 			

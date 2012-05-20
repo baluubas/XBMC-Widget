@@ -4,22 +4,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="@dimen/widget_margin">
+ 
+<FrameLayout 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#33000000"
+    android:padding="2dp">
     
 <RelativeLayout 
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:id="@+id/recent_tv_item"
-    android:background="#33000000"
-    android:padding="2dp">
+    android:background="#A9A9A9"
+    android:padding="1dp">
 	
 	<ImageView 
         android:id="@+id/fanArt"
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:background="#A9A9A9" 
 		android:scaleType="centerCrop"
-		android:padding="1dp"
 		android:src="@drawable/default_tv_fan_art"
 		android:adjustViewBounds="true" 
 		android:contentDescription="@string/lbl_recent_tv_movies" />
@@ -42,7 +47,6 @@
         android:id="@+id/new_icon"
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:padding="1dp"
 		android:visibility="invisible"
 		android:src="@drawable/new_label" 
 		android:contentDescription="@string/lbl_new" />
@@ -55,9 +59,6 @@
 		android:layout_alignLeft="@id/fanArt"
 		android:layout_alignRight="@id/fanArt"
 		android:background="#AA000000"
-		android:layout_marginLeft="1dp"
-		android:layout_marginRight="1dp"
-		android:layout_marginBottom="1dp"
 		android:clickable="false">
         
 		<ImageButton
@@ -138,10 +139,8 @@
         android:layout_above="@id/textSection"
         android:layout_alignTop="@id/fanArt"
         android:layout_alignLeft="@id/fanArt"
-        android:layout_alignRight="@id/fanArt"
-        android:layout_marginLeft="1dp"
-		android:layout_marginRight="1dp"
-		android:layout_marginTop="1dp" />
+        android:layout_alignRight="@id/fanArt" />
 
 </RelativeLayout>
+</FrameLayout>
 </FrameLayout>

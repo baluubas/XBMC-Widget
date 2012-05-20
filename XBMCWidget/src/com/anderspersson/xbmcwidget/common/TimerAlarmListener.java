@@ -24,7 +24,7 @@ public class TimerAlarmListener implements WakefulIntentService.AlarmListener {
 
 	private int getInterval(Context ctxt) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctxt);
-		String refreshIntervalMinutesStr = prefs.getString("recenttv_refresh_interval_preference", "30");
+		String refreshIntervalMinutesStr = prefs.getString("recentvideo_refresh_interval_preference", "30");
 		int refreshIntervalMinutes = Integer.valueOf(refreshIntervalMinutesStr);
 		int intervalMilliseconds = refreshIntervalMinutes * 60 * 1000;
 		return intervalMilliseconds;

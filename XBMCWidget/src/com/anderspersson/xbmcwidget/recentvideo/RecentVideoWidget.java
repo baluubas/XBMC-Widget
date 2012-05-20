@@ -1,5 +1,6 @@
 package com.anderspersson.xbmcwidget.recentvideo;
 
+import com.anderspersson.xbmcwidget.common.FileLog;
 import com.anderspersson.xbmcwidget.common.ITimerCallback;
 import com.anderspersson.xbmcwidget.common.UpdateTimer;
 import com.anderspersson.xbmcwidget.configuration.PreferenceChangedListener;
@@ -24,12 +25,14 @@ public abstract class RecentVideoWidget extends AppWidgetProvider {
 	@Override
 	public void onDisabled(Context context) {
 		super.onDisabled(context);
+		FileLog.appendLog("Disabled");
 		_timer.removeCallback(context, getTimerCallback(context));
 	}
 
 	@Override
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
+		FileLog.appendLog("Enabled");
 		_timer.addCallback(context, getTimerCallback(context));
 	}
 
@@ -44,6 +47,7 @@ public abstract class RecentVideoWidget extends AppWidgetProvider {
 		int[] ids = AppWidgetManager.getInstance(context).getAppWidgetIds(thisAppWidget);		
 		
 		if(ids.length > 0) {
+			FileLog.appendLog("onReceive");
 			_timer.reset(context);
 		}
 	}
@@ -53,6 +57,7 @@ public abstract class RecentVideoWidget extends AppWidgetProvider {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 		for (int i = 0; i < appWidgetIds.length; ++i) {
+			FileLog.appendLog("onUpdate Id="+ appWidgetIds[i]);
 			Intent updateIntent = createUpdateIntent(context);
 			updateIntent.setAction(RECENT_VIDEO_UPDATE_WIDGET);
 			updateIntent.putExtra("widgetId", appWidgetIds[i]);

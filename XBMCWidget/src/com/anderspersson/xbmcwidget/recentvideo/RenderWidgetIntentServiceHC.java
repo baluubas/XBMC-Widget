@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.widget.RemoteViews;
 
 import com.anderspersson.xbmcwidget.R;
+import com.anderspersson.xbmcwidget.common.FileLog;
 import com.anderspersson.xbmcwidget.common.ToastRunnable;
 import com.anderspersson.xbmcwidget.common.XbmcWidgetApplication;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
@@ -40,6 +41,8 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		String action = intent.getAction();
+		
+		FileLog.appendLog("Render - " + action);
 		
 		if(action.equals(RecentVideoWidget.RECENT_VIDEO_UPDATE_WIDGET)) {
 			createWidget(intent.getIntExtra("widgetId", 0));

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.BufferedHttpEntity;
 
+import com.anderspersson.xbmcwidget.common.FileLog;
 import com.anderspersson.xbmcwidget.common.FlushedInputStream;
 
 
@@ -40,6 +41,7 @@ public class DownloadBitmapCommand extends XbmcRequestBase<Bitmap> {
 			is.close();
 			return bitmap;
 		} catch (Exception e) {
+			FileLog.appendLog("Failed to download bitmap: " + e.getMessage());
 			Log.w(DownloadBitmapCommand.class.getSimpleName(), e.getMessage());
 			return null;
 		}

@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
                 
     <ListPreference
-    	android:key="recenttv_refresh_interval_preference"
+    	android:key="recentvideo_refresh_interval_preference"
     	android:entries="@array/refresh_intervals"
         android:entryValues="@array/refresh_interval_values"
 		android:title="@string/lbl_refresh_interval"

@@ -29,7 +29,7 @@
   	
 	<PreferenceScreen android:title="@string/lbl_recent_tv_movies">            
         <ListPreference
-   			android:key="recenttv_refresh_interval_preference"
+   			android:key="recentvideo_refresh_interval_preference"
 			android:title="@string/lbl_refresh_interval"
        		android:summary="@string/lbl_refresh_interval_summary" 
        		android:entries="@array/refresh_intervals"

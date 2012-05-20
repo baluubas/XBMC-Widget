@@ -13,8 +13,10 @@ public class TimerIntentService extends WakefulIntentService {
 	@Override
 	protected void doWakefulWork(Intent intent) {
 		TimerCallbacks timerCallbacks = new TimerCallbacks(this);
-		
+		FileLog.appendLog("Timer tick");
 		for(ITimerCallback callback : timerCallbacks.getCallbackInstances()) {
+			FileLog.appendLog("performUpdate: " + 
+					callback.getClass().getSimpleName());	
 			callback.performUpdate();
 		}
 	}

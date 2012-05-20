@@ -2,6 +2,7 @@ package com.anderspersson.xbmcwidget.recentvideo;
 
 import java.util.Date;
 
+import com.anderspersson.xbmcwidget.common.FileLog;
 import com.anderspersson.xbmcwidget.common.ITimerCallback;
 
 import android.content.Context;
@@ -33,12 +34,14 @@ public abstract class VideoUpdaterService implements ITimerCallback {
     
 	public void performUpdate() {
 		if(isConnectedToWifi() == false) {
+			FileLog.appendLog("Not connected to wifi.");
 			_ctx.startService(createRecentVideoRefreshIntent(UpdateResult.Failed));
 			return;
 		}
 		
 		UpdateResult result = tryRefreshData();
 
+		FileLog.appendLog("Update result: " + result);
 		if(result == UpdateResult.Failed) {
 			_ctx.startService(createRecentVideoRefreshIntent(result));
 			return;
@@ -75,6 +78,8 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 				Thread.sleep(1000 * 5);
 			}
 			
+			state = wifi.getState();
+			FileLog.appendLog("Wifi state is " + state);
 			return wifi.isConnected();
 		}
 		catch(Exception ex) {
