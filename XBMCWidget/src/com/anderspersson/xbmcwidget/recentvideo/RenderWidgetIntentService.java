@@ -155,9 +155,9 @@ public abstract class RenderWidgetIntentService extends IntentService {
 					
 		int color = state == REFRESH_STATE.OK
 				? Color.parseColor("#A9A9A9") 
-				: Color.RED;;
+				: Color.parseColor("#E24A57");
 		
-		rv.setInt(R.id.fanArt, "setBackgroundColor", color);
+		rv.setInt(R.id.recent_tv_item, "setBackgroundColor", color);
 	}
 	
 	protected void createAndUpdateView(int viewIndex, REFRESH_STATE state) {
