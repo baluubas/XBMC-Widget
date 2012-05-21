@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.NetworkInfo.State;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -63,24 +63,32 @@ public abstract class VideoUpdaterService implements ITimerCallback {
 	private boolean isConnectedToWifi() {
 		
 		try {
-//			if(android.os.Debug.isDebuggerConnected()) {
-//				return true;
-//			}
+			if(android.os.Debug.isDebuggerConnected()) {
+				return true;
+			}
 		
+			WifiManager wifiManager = (WifiManager)_ctx.getSystemService(Context.WIFI_SERVICE);
+			
 			ConnectivityManager connManager = (ConnectivityManager) _ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			if(wifi == null || wifi.isAvailable() == false)
+			
+			if(wifi == null) {
+				FileLog.appendLog("No wifi enabled.");
 				return false;
-			
-			State state = wifi.getState();
-			
-			if(state == State.CONNECTING) {
-				Thread.sleep(1000 * 5);
 			}
 			
-			state = wifi.getState();
-			FileLog.appendLog("Wifi state is " + state);
-			return wifi.isConnected();
+			if(wifi.isConnected()) {
+				FileLog.appendLog("Wifi state is CONNECTED");
+				return true;
+			}
+			
+			if(wifiManager.reconnect()) {
+				FileLog.appendLog("Wifi successfully reconnected");
+				return true;
+			}
+			
+			FileLog.appendLog("Wifi failed to reconnect");
+			return false;
 		}
 		catch(Exception ex) {
 			Log.w(

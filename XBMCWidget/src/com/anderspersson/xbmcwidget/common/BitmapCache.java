@@ -13,7 +13,7 @@ import android.os.Environment;
 import android.util.Log;
 
 public class BitmapCache {
-	private static int MaxCachedBitmaps = 20;
+	private static int MaxCachedBitmaps = 25;
 	private static String Suffix = ".bitmapcache";
 	private Context _context;
 	private IPublicStorage storage;
@@ -74,7 +74,7 @@ public class BitmapCache {
 		Arrays.sort(cachedFiles, new Comparator<File>(){
 		    public int compare(File f1, File f2)
 		    {
-		        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified()) * -1;
+		        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
 		    } });
 		
 		cachedFiles[0].delete();

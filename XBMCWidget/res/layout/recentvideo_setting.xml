@@ -6,6 +6,7 @@
     	android:entries="@array/refresh_intervals"
         android:entryValues="@array/refresh_interval_values"
 		android:title="@string/lbl_refresh_interval"
+		android:defaultValue="30"
         android:summary="@string/lbl_refresh_interval_summary" />
         
 	<EditTextPreference 

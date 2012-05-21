@@ -63,7 +63,8 @@ abstract public class WakefulIntentService extends IntentService {
 			WifiManager mgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
 			// wake up the WiFi
-			lockWifi = mgr.createWifiLock(NAME);
+			int WIFI_MODE_FULL_HIGH_PERF = 3;
+			lockWifi = mgr.createWifiLock(WIFI_MODE_FULL_HIGH_PERF, NAME);
 			lockWifi.setReferenceCounted(true);
 		}
 
