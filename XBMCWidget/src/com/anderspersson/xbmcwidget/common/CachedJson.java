@@ -14,8 +14,6 @@ import android.content.Context;
 
 public abstract class CachedJson<SerializedType> {
 	private String _filename;
-	
-	private List<SerializedType> _inmemoryCache;
 
 	private final Context _context;
 	
@@ -27,10 +25,6 @@ public abstract class CachedJson<SerializedType> {
 	public abstract List<SerializedType> parseJson(JSONObject jsonObject) throws JSONException;	
 	
 	public boolean isEmpty() {
-		if(_inmemoryCache != null && _inmemoryCache.size() > 0) {
-			return false;
-		}
-		
 		boolean hasFile = hasCacheFile() == false;
 		return hasFile;
 	}
@@ -40,25 +34,16 @@ public abstract class CachedJson<SerializedType> {
 			FileLog.appendLog(_filename + " - Get - no file");
 			return new ArrayList<SerializedType>();
 		}
-		
-		if(_inmemoryCache != null) 
-		{
-			FileLog.appendLog(_filename + " - Get - inmemory");
-			return _inmemoryCache;
-		}
-		
-		_inmemoryCache =  _loadCachedData();
+			
+		List<SerializedType> deserializedData =  _loadCachedData();
 		FileLog.appendLog(_filename + " - Get - from file");
-		return _inmemoryCache;
+		return deserializedData;
 	}
 	
 	public boolean put(JSONObject dataToStore) throws JSONException, IOException {
-		
-		List<SerializedType> newSerializedData = parseJson(dataToStore);
-		
-		boolean isIdentical = storeEpisodes(dataToStore);
-		_inmemoryCache = newSerializedData;
-		return isIdentical;
+		// just make sure its possible to serialize
+		parseJson(dataToStore);
+		return storeEpisodes(dataToStore);
 	}
 	
 	private boolean hasCacheFile() {
@@ -75,8 +60,7 @@ public abstract class CachedJson<SerializedType> {
 		byte [] buffer = new byte[is.available()];
 		while (is.read(buffer) != -1);
 		is.close();
-		String jsontext = new String(buffer);
-		return jsontext;
+		return new String(buffer);
 	}
 	
 	private boolean storeEpisodes(JSONObject json) throws IOException {

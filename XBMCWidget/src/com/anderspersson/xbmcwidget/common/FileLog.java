@@ -11,7 +11,6 @@ import android.util.Log;
 public class FileLog {
 	public static void appendLog(String text)
 	{       
-		return;
 //	   File logFile = new File("sdcard/log.txt");
 //	   if (!logFile.exists())
 //	   {
