@@ -19,16 +19,17 @@ public class RecentMoviesCache extends CachedJson<Movie> {
 	}
 
 	public List<Movie> parseJson(JSONObject json) throws JSONException {
-		JSONArray episodes = json.getJSONObject("result").getJSONArray("movies");
+		JSONArray movies = json.getJSONObject("result").getJSONArray("movies");
 		
 		ArrayList<Movie> result = new ArrayList<Movie>(); 
-		for(int i = 0; i < episodes.length(); i++) {
-			JSONObject episode = episodes.getJSONObject(i);
+		for(int i = 0; i < movies.length(); i++) {
+			JSONObject movie = movies.getJSONObject(i);
 			result.add(new Movie(
-				episode.getString("title"),  
-				episode.getString("thumbnail"),
-				episode.getString("file"),
-				episode.getInt("playcount")));
+				movie.getString("title"),  
+				movie.getString("thumbnail"),
+				movie.getString("file"),
+				movie.getInt("playcount"),
+				movie.getString("imdbnumber")));
 		}
 		
 		return result;

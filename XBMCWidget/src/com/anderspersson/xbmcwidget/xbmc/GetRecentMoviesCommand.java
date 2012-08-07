@@ -28,6 +28,7 @@ public class GetRecentMoviesCommand extends XbmcRequestBase<JSONObject> {
 		properties.put("thumbnail");
 		properties.put("file");
 		properties.put("playcount");
+		properties.put("imdbnumber");
 
 		
 		// Seems that the 2.0 json-rpc api changed somewhere after 

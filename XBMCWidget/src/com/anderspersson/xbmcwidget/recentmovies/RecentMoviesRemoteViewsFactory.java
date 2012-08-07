@@ -9,6 +9,8 @@ import com.anderspersson.xbmcwidget.recentvideo.CachedFanArtDownloader;
 import com.anderspersson.xbmcwidget.xbmc.Movie;
 import com.anderspersson.xbmcwidget.xbmc.XbmcService;
 
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,18 +47,21 @@ public class RecentMoviesRemoteViewsFactory implements RemoteViewsService.Remote
         		: movies.size();
     }
 
-    public RemoteViews getViewAt(int position) {
+    @SuppressLint("NewApi")
+	public RemoteViews getViewAt(int position) {
     	Movie movie = movies.get(position);
     	
     	RemoteViews rv = new RemoteViews(_context.getPackageName(), R.layout.recent_movie_item);
     	
-        //rv.setInt(R.id.fanArt, "setBackgroundColor", getBorderColor());
+    	SetImdbIntent(rv, movie.getImdbId());
+    	
         rv.setViewVisibility(R.id.new_icon, getNewIconVisibility(movie));
         
         Bundle extras = new Bundle();
         extras.putString(XbmcService.EXTRA_ITEM, movie.getFile());
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
+        fillInIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
         rv.setOnClickFillInIntent(R.id.recent_tv_item, fillInIntent);
 
        	String fanartPathCachedOnStorage = _fanArtDownloader.download(movie.getFanArtPath());
@@ -98,5 +103,13 @@ public class RecentMoviesRemoteViewsFactory implements RemoteViewsService.Remote
     
 	private int getNewIconVisibility(Movie movie) {
 		return movie.hasBeenSeen() ?  View.INVISIBLE : View.VISIBLE;
+	}
+	
+	@SuppressLint("NewApi")
+	private void SetImdbIntent(RemoteViews rv, String imdbId) {
+		String imdbUrl = "http://www.imdb.com/title/" + imdbId;
+		Intent intent = new Intent().setData(Uri.parse(imdbUrl));
+		intent.setAction(Intent.ACTION_VIEW);
+		rv.setOnClickFillInIntent(R.id.imdb_button, intent);
 	}
 }

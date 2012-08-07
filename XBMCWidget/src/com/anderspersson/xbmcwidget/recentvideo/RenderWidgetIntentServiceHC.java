@@ -1,5 +1,6 @@
 package com.anderspersson.xbmcwidget.recentvideo;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -56,6 +57,12 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 		else if(action.equals(XbmcService.PLAY_EPISODE_ACTION)) {
             handlePlayClick(intent.getStringExtra(XbmcService.EXTRA_ITEM));
         }
+		else if(action.equals(Intent.ACTION_VIEW)) {
+			Intent browseIntent = new Intent(Intent.ACTION_VIEW)
+				.setData(Uri.parse(intent.getDataString()))
+				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			this.startActivity(browseIntent);
+		}
 		else if(action.equals(RETRY)) {
             retry();
         }
@@ -83,6 +90,7 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 		createFailedView();
 	}
 	
+	@SuppressLint("NewApi")
 	private void refreshWidgets() {
 		
 		if(hasWidgetData() == false) 
@@ -128,6 +136,8 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 		startService(playIntent);	
 	}
 
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
 	private void updateRemoteView(AppWidgetManager appWidgetManager, int appWidgetId) {
 		Intent intent = new Intent(this, getRemoveViewsService());
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -137,7 +147,6 @@ public abstract class RenderWidgetIntentServiceHC extends IntentService {
 		rv.setRemoteAdapter(appWidgetId, R.id.stack_view, intent);
 
 		Intent playIntent = new Intent(this, this.getClass());
-		playIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
 		playIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 		PendingIntent toastPendingIntent = PendingIntent.getService(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);

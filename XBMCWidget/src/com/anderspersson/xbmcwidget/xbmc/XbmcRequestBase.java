@@ -125,8 +125,8 @@ public abstract class XbmcRequestBase<T> implements XbmcRequest {
 	}
 
 	protected DefaultHttpClient createHttpClient(Uri hostUri) {
-		int timeoutConnection = 3000;
-		int timeoutSocket = 10000;
+		int timeoutConnection = 7000;
+		int timeoutSocket = 15000;
 		
 		HttpParams httpParameters = new BasicHttpParams();
 		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
