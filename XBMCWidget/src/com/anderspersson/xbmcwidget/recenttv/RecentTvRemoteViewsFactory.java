@@ -62,6 +62,7 @@ public class RecentTvRemoteViewsFactory implements RemoteViewsService.RemoteView
         extras.putString(XbmcService.EXTRA_ITEM, episode.getFile());
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
+        fillInIntent.setAction(XbmcService.PLAY_EPISODE_ACTION);
         rv.setOnClickFillInIntent(R.id.recent_tv_item, fillInIntent);
 
        	String fanArtPathOnStorage = _fanArtDownloader.download(episode.getFanArtPath());

@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/recent_tv_item"
     android:background="#33000000"
     android:padding="2dp">
+        
+	<RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#A9A9A9" 
+        android:padding="1dp"
+        android:id="@+id/fanArtContainer">
     
-	<ImageView 
-        android:id="@+id/fanArt"
-        android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:background="#A9A9A9" 
-		android:gravity="center" 
-		android:padding="1px"
-		android:src="@drawable/default_movie_fan_art"
-		android:adjustViewBounds="true" />
+		<ImageView 
+	        android:id="@+id/fanArt"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="#A9A9A9" 
+			android:scaleType="centerCrop" 
+			android:src="@drawable/default_movie_fan_art"
+			android:adjustViewBounds="true" />
+			
+		<ImageView 
+	        android:id="@+id/new_icon"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/new_label" />
 		
-	<ImageView 
-        android:id="@+id/new_icon"
-        android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:padding="1px"
-		android:src="@drawable/new_label" />
-	
-	<Button
-    	android:id="@+id/imdb_button"
-		android:layout_width="30dp"
-        android:layout_height="40dp"
-		android:layout_marginTop="3dp"
-		android:gravity="center"
-		android:text="i"
-		android:shadowColor="#CC000000"
-	    android:shadowDx="0"
-	    android:shadowDy="0"
-	    android:shadowRadius="7"
-		android:fontFamily="Times New Roman"
-		android:textColor="#FFFFFF"
-		android:textSize="30dp"
-		android:textStyle="bold"
-        style="@style/RecentTvButton"  
-        android:layout_alignBottom="@id/fanArt"
-        android:layout_alignRight="@id/fanArt"/>
-	
-</RelativeLayout>
+		<Button
+	    	android:id="@+id/imdb_button"
+			android:layout_width="60dp"
+	        android:layout_height="70dp"
+			android:layout_marginTop="3dp"
+			android:paddingLeft="30dp"
+			android:paddingTop="30dp"
+			android:gravity="center"
+			android:text="i"
+			android:shadowColor="#CC000000"
+		    android:shadowDx="0"
+		    android:shadowDy="0"
+		    android:shadowRadius="7"
+			android:fontFamily="serif"
+			android:textColor="#FFFFFF"
+			android:textSize="30dp"
+			android:textStyle="bold"
+	        style="@style/RecentTvButton"  
+	        android:layout_alignBottom="@id/fanArt"
+	        android:layout_alignRight="@id/fanArt"/>
+	</RelativeLayout>
+</FrameLayout>
