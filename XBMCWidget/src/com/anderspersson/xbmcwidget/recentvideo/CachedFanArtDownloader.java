@@ -29,6 +29,9 @@ public class CachedFanArtDownloader {
 		String url = "/vfs/" + Uri.encode(path);
 		String key = makeCacheKey(path);
 		
+		if(key == null)
+			return null;
+		
 		if(_cache.has(key)) {
 			FileLog.appendLog("FanArt cache hit: " + key);
 			return _cache.get(key);

@@ -5,6 +5,7 @@ import com.anderspersson.xbmcwidget.R;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ public class TroubleshootingPreferenceFragment extends Fragment {
 		
 		TextView message = (TextView)v.findViewById(R.id.troubleshooting_message);
 		message.setText(Html.fromHtml(getString(R.string.message_troubleshooting)));
-		
+		message.setMovementMethod(LinkMovementMethod.getInstance());
 		return v;
 	}
 }
